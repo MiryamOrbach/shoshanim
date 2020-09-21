@@ -39,7 +39,6 @@ export default function SignIn() {
     const formData = new FormData();
     formData.append("user", userName);
     formData.append("password", password);
-    console.log("formData", formData);
     axios
       .post(`http://51.91.110.239/api/LoginProc`, formData)
       .then((res) => {
