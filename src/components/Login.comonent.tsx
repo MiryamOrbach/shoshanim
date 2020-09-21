@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { useHistory } from "react-router";
+import BaseRequest from "../helpers/BaseRequest";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,19 +40,12 @@ export default function SignIn() {
     const formData = new FormData();
     formData.append("user", userName);
     formData.append("password", password);
-    axios
-      .post(`http://51.91.110.239/api/LoginProc`, formData)
-      .then((res) => {
+
+    BaseRequest("LoginProc", formData)
+      .then((res: any) => {
         console.log(res);
-        let stringUser = JSON.stringify(res.data);
-        let JsonUser = JSON.parse(stringUser);
-
-        let currentUser = { user: JsonUser.name, token: JsonUser.token };
-
-        console.log(currentUser);
-
-        localStorage.setItem("userName", currentUser.user);
-        localStorage.setItem("token", currentUser.token);
+        localStorage.setItem("userName", res.name);
+        localStorage.setItem("token", res.token);
         history.push("/home");
       })
       .catch((e) => {

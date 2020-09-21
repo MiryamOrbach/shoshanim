@@ -12,23 +12,22 @@ export default function InfosFinacieres() {
   const handleChange = (index: number) => {
     debugger;
     setIndexChecked(index + 1);
-    // setIndexChecked(event.target);
   };
   return (
     <div>
-      <h1>Info Financieres</h1>
+      <h1>נתונים פיננסיים</h1>
       <Grid
         spacing={2}
         direction="column"
         justify="flex-start"
         container
-        style={{ width: "20%", marginLeft: "auto" }}
+        style={{ width: "30%", marginLeft: "auto" }}
       >
         <Grid item xs={12}>
           <Typography variant="h5">הנחה</Typography>
         </Grid>
         <Grid
-          direction="row"
+          direction="row-reverse"
           spacing={1}
           item
           xs={12}
@@ -39,7 +38,7 @@ export default function InfosFinacieres() {
         >
           {arr.map((item, idx) => {
             return (
-              <Grid key={idx} item xs={6}>
+              <Grid key={idx} item xs={3}>
                 <FormControlLabel
                   control={
                     <Checkbox

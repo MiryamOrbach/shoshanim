@@ -11,6 +11,7 @@ import CourseList from "./components/CourseList";
 import TeacherList from "./components/TeachersList";
 import PersonalFile from "./components/PersonalFile";
 import Comments from "./components/Comments";
+import ViewChild from "./components/ViewChild";
 function App() {
   return (
     <div className="App">
@@ -32,6 +33,7 @@ function App() {
             path="/infosFinancieres"
             component={InfosFinancieres}
           />
+          <PrivateRoute exact path="/child" component={ViewChild} />
           <PrivateRoute exact path="/" component={Home} />
         </Switch>
       </BrowserRouter>
