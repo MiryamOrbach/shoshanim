@@ -10,17 +10,27 @@ import IconButton from "@material-ui/core/IconButton";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import EnhancedTable from "./Table";
 import PrivateRoute from "./PrivateRoute";
+import Logo from "../assets/ShoshanimSLCLogo.png";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles({
   appBar: {
     position: "relative",
+    backgroundColor: "white",
+    color: "#214078",
+  },
+  tabs: {
+    width: "50%",
   },
   tab: {
-    color: "white",
-    width: "100%",
+    width: "10%",
+    fontWeight: "bold",
   },
   name: {
-    width: "10%",
+    width: "25%",
+  },
+  logo: {
+    width: "25%",
   },
 });
 
@@ -37,45 +47,62 @@ export default function Header(props: any) {
     console.log(userName);
   }, []);
   return (
-    <>
-      {userName ? (
-        <Paper>
-          <BrowserRouter>
-            <AppBar className={classes.appBar}>
-              <Toolbar>
-                <label className={classes.name}>{userName} שלום</label>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  indicatorColor="secondary"
-                  centered
-                  className={classes.tab}
-                >
-                  <Tab href="/course" className={classes.tab} label="קורסים" />
-                  <Tab
-                    className={classes.tab}
-                    href="/teachers"
-                    label="מטפלים"
-                  />
-                  <Tab className={classes.tab} href="children" label="ילדים" />
-                  <Tab className={classes.tab} label="כספים" />
-                </Tabs>
-
-                <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  // aria-controls={menuId}
-                  aria-haspopup="true"
-                  // onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-          </BrowserRouter>
-        </Paper>
-      ) : null}
-    </>
+    <Grid container>
+      <Grid item xs={12}>
+        {userName ? (
+          <Paper>
+            <BrowserRouter>
+              <AppBar className={classes.appBar}>
+                <Toolbar>
+                  <div className={classes.name}>
+                    <IconButton
+                      edge="end"
+                      aria-label="account of current user"
+                      // aria-controls={menuId}
+                      aria-haspopup="true"
+                      // onClick={handleProfileMenuOpen}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                    <label>{userName} שלום</label>
+                  </div>
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor="secondary"
+                    centered
+                    className={classes.tabs}
+                  >
+                    <Tab
+                      href="/course"
+                      className={classes.tab}
+                      label="קורסים"
+                    />
+                    <Tab
+                      className={classes.tab}
+                      href="/teachers"
+                      label="מטפלים"
+                    />
+                    <Tab
+                      className={classes.tab}
+                      href="/students"
+                      label="ילדים"
+                    />
+                    <Tab className={classes.tab} label="כספים" />
+                  </Tabs>
+                  <div className={classes.logo}>
+                    <img
+                      style={{ height: 50, width: 50, float: "right" }}
+                      src={Logo}
+                    />
+                  </div>
+                </Toolbar>
+              </AppBar>
+            </BrowserRouter>
+          </Paper>
+        ) : null}
+      </Grid>
+    </Grid>
   );
 }

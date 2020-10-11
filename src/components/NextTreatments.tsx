@@ -1,6 +1,5 @@
 import React from "react";
 import EnhancedTable, { HeadCell } from "./Table";
-import { Data } from "./Table";
 export default function NextTreatments() {
   // interface HeadCell {
   //   id: keyof Data;
@@ -19,7 +18,7 @@ export default function NextTreatments() {
   return (
     <>
       <h1>טיפולים הבאים</h1>
-      <EnhancedTable headCells={headCells} />
+      {/* <EnhancedTable headCells={headCells} /> */}
     </>
   );
 }

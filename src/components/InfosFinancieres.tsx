@@ -54,7 +54,7 @@ export default function InfosFinacieres() {
           })}
         </Grid>
       </Grid>
-      <EnhancedTable />
+      {/* <EnhancedTable /> */}
     </div>
   );
 }

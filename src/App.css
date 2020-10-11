@@ -1,10 +1,16 @@
 .App {
   text-align: center;
+  overflow: hidden;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+.container {
+  max-height: 674px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {

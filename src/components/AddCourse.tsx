@@ -1,10 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
 import { makeStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -16,6 +13,8 @@ import { Button } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
 import CustomAutoComplete from "./CustomAutoComplete";
+import BaseRequest from "../helpers/BaseRequest";
+import { greatestDurationDenominator } from "@fullcalendar/react";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -29,21 +28,63 @@ const useStyles = makeStyles((theme) => ({
 interface CourseProps {
   ok: Function;
 }
-
+export interface AutoCompleteList {
+  id: string;
+  value: string;
+  lastName?: string;
+  firstName?: string;
+}
 export default function AddCourse(props: CourseProps) {
   const classes = useStyles();
   const [age, setAge] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date("2014-08-18T21:11:54")
   );
+  const [intervenant, setIntervenant] = useState<AutoCompleteList[]>([]);
+  const [students, setStudents] = useState<AutoCompleteList[]>([]);
+  const [child, setChild] = useState<AutoCompleteList>();
+  const [teacher, setTeacher] = useState<AutoCompleteList>();
   const [checkAllYear, setCheckAllYear] = React.useState(false);
-
+  useEffect(() => {
+    getIntervant();
+    getStudent();
+  }, []);
+  const getStudent = () => {
+    BaseRequest("getStudent")
+      .then((res: { data: any[] }) => {
+        console.log(res);
+        let i: AutoCompleteList[] = [];
+        res.data.forEach((item) => {
+          i.push({ id: item.id_elev, value: `${item.prenom} ${item.nom}` });
+        });
+        setStudents(i);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  let formData = new FormData();
+  const ok = () => {
+    BaseRequest("createCours", formData).then((res) =>
+      console.log("creates", res)
+    );
+  };
+  const getIntervant = () => {
+    BaseRequest("getIntervenant")
+      .then((res: { data: any[] }) => {
+        console.log(res);
+        let i: AutoCompleteList[] = [];
+        res.data.forEach((item) => {
+          i.push({ id: item.id_interv, value: `${item.prenom} ${item.nom}` });
+        });
+        setIntervenant(i);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
-  };
-
-  const handleChange = (event: any) => {
-    setAge(event.target.value);
   };
 
   return (
@@ -75,23 +116,11 @@ export default function AddCourse(props: CourseProps) {
             variant="outlined"
             className={classes.formControl}
           >
-            <InputLabel id="demo-simple-select-outlined-label">
-              שם מטפל
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={age}
-              onChange={handleChange}
+            <CustomAutoComplete
+              data={intervenant}
               label="שם מטפל"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
+              setValue={setTeacher}
+            />
           </FormControl>
         </Grid>
 
@@ -102,24 +131,11 @@ export default function AddCourse(props: CourseProps) {
             variant="outlined"
             className={classes.formControl}
           >
-            {/* <InputLabel id="demo-simple-select-outlined-label">
-              שם הילד
-            </InputLabel> */}
-            <CustomAutoComplete label={"שם הילד"} />
-            {/* <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={age}
-              onChange={handleChange}
-              label="שם מטפל"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select> */}
+            <CustomAutoComplete
+              label={"שם הילד"}
+              data={students}
+              setValue={setChild}
+            />
           </FormControl>
         </Grid>
       </Grid>
@@ -190,6 +206,9 @@ export default function AddCourse(props: CourseProps) {
           variant="contained"
           color="primary"
           onClick={() => {
+            ok();
+            // console.log("child", child);
+            // console.log("teacher", teacher);
             props.ok();
           }}
         >

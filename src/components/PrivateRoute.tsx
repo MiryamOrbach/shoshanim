@@ -7,7 +7,7 @@ interface PrivateRouteProps {
   path: string;
 }
 export default function PrivateRoute(props: PrivateRouteProps) {
-  const arr = ["/course", "/teachers", "/childrens"];
+  const arr = ["/course", "/teachers", "/students"];
   return (
     <>
       <Header index={arr.indexOf(props.path) || 0} />
