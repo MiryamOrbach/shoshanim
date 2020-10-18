@@ -55,7 +55,7 @@ export default function AddCourse(props: CourseProps) {
         console.log(res);
         let i: AutoCompleteList[] = [];
         res.data.forEach((item) => {
-          i.push({ id: item.id_elev, value: `${item.prenom} ${item.nom}` });
+          i.push({ id: item.id, value: `${item.firstName} ${item.lastName}` });
         });
         setStudents(i);
       })

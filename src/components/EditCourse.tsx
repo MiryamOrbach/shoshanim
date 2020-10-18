@@ -70,10 +70,10 @@ export default function EditCourse(props: EditCourseProps) {
         let i: AutoCompleteList[] = [];
         res.data.forEach((item) => {
           i.push({
-            id: item.id_elev,
-            value: `${item.prenom} ${item.nom}`,
-            firstName: item.prenom,
-            lastName: item.nom,
+            id: item.id,
+            value: `${item.firstName} ${item.lastName}`,
+            firstName: item.firstName,
+            lastName: item.lastName,
           });
         });
         setStudents(i);

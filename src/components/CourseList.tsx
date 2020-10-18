@@ -17,12 +17,21 @@ import Grid from "@material-ui/core/Grid";
 import CustomAutoComplete from "./CustomAutoComplete";
 import BaseRequest from "../helpers/BaseRequest";
 import { AutoCompleteList } from "./AddCourse";
-import { Dialog, DialogContent } from "@material-ui/core";
+import { Card, Dialog, DialogContent } from "@material-ui/core";
 import EditCourse from "./EditCourse";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
+    width: "100%",
+
+  },
+  card: {
+    width: "74%",
+    margin: "2% 15%",
+    padding: "0 2% 2% 2%",
+    direction: "rtl"
+
   },
   // container: {
   //   maxHeight: "674px",
@@ -34,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
   //   overflow-y: auto;
   //   overflow-x: hidden;
   // },
+  grid: {
+    marginRight: "5px"
+  },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
@@ -64,17 +76,18 @@ export default function CourseList() {
     setShowEditCourse(true);
   };
   const cells: HeadCell[] = [
+
+    { id: "childName", label: "שם ילד", isSortable: true },
+    { id: "teacherName", label: "שם המטפל", isSortable: true },
+    { id: "classRoom", label: "חדר כיתה", isSortable: true },
+    { id: "date", label: "תאריך", isSortable: true },
     {
       id: "edit",
       label: "עריכה",
       type: "icon",
       handleClickIcon: clickIcon,
       isSortable: false,
-    },
-    { id: "childName", label: "שם ילד", isSortable: true },
-    { id: "teacherName", label: "שם המטפל", isSortable: true },
-    { id: "classRoom", label: "חדר כיתה", isSortable: true },
-    { id: "date", label: "תאריך", isSortable: true },
+    }
   ];
   const [displayRows, setDisplayRows] = useState<CourseData[]>([]);
   const [rows, setRows] = useState<CourseData[]>([]);
@@ -109,7 +122,7 @@ export default function CourseList() {
         console.log(res);
         let i: AutoCompleteList[] = [];
         res.data.forEach((item) => {
-          i.push({ id: item.id_elev, value: `${item.prenom} ${item.nom}` });
+          i.push({ id: item.id, value: `${item.firstName} ${item.lastName}` });
         });
         setStudents(i);
       })
@@ -189,37 +202,35 @@ export default function CourseList() {
 
   return (
     <>
-      <Grid
+      {/* <Grid
         className="container"
         spacing={2}
         alignItems="flex-end"
         justify="flex-end"
         container
-      >
+      > */}
+      <Card className={classes.card}>
         <Grid
           spacing={2}
-          item
           direction="column"
-          alignItems="center"
-          justify="center"
           container
         >
           <Grid item xs={12}>
-            <h1>רשימת הקורסים</h1>
+            <h1 className="primary" >רשימת הקורסים</h1>
           </Grid>
           <Grid
             direction="row"
-            spacing={1}
+            // spacing={2}
             item
             xs={12}
-            justify="center"
-            alignItems="center"
+            justify="flex-end"
+            // alignItems="flex-end"
             container
-            alignContent="center"
+          // alignContent="flex-end"
           >
-            <Grid item xs={4}>
+            <Grid item xs={3} className={classes.grid}>
               <FormControl
-                style={{ width: "100%" }}
+                // style={{ width: "100%" }}
                 color="primary"
                 variant="outlined"
                 className={classes.formControl}
@@ -250,9 +261,9 @@ export default function CourseList() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={3} className={classes.grid}>
               <FormControl
-                style={{ width: "100%" }}
+                // style={{ width: "100%" }}
                 color="primary"
                 variant="outlined"
                 className={classes.formControl}
@@ -266,10 +277,10 @@ export default function CourseList() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={3} className={classes.grid}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
-                  style={{ width: "100%" }}
+                  // style={{ width: "100%" }}
                   color="primary"
                   inputVariant="outlined"
                   id="date-picker-dialog-outlined"
@@ -285,15 +296,17 @@ export default function CourseList() {
                   }}
                   label="תאריך"
                   variant="inline"
+                  className={classes.formControl}
                 />
               </MuiPickersUtilsProvider>
             </Grid>
           </Grid>
+          {/* </Grid> */}
+          <Grid item xs={12}>
+            <EnhancedTable headCells={cells} rows={displayRows} />
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <EnhancedTable headCells={cells} rows={displayRows} />
-        </Grid>
-      </Grid>
+      </Card>
       <Dialog
         onClose={() => {
           setShowEditCourse(false);

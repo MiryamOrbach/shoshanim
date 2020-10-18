@@ -1,18 +1,29 @@
-import { Button, FormControl, Grid, makeStyles } from "@material-ui/core";
+import { Button, Card, FormControl, Grid, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import BaseRequest from "../helpers/BaseRequest";
 import { AutoCompleteList } from "./AddCourse";
 import CustomAutoComplete from "./CustomAutoComplete";
 import EnhancedTable, { HeadCell } from "./Table";
-interface StudentData {
-  prenom: string;
-  nom: string;
-  date_naiss: string;
+import { useHistory } from "react-router-dom";
+
+export interface StudentData {
+  firstName: string;
+  lastName: string;
+  birthDate: string;
   item: any;
 }
 const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
+    width: "100%",
+
+  },
+  card: {
+    width: "74%",
+    margin: "2% 15%",
+    padding: "0 2% 2% 2%",
+    direction: "rtl"
+
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -20,10 +31,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function StudentList() {
   const classes = useStyles();
+  const history = useHistory();
 
   const [rows, setRows] = useState<StudentData[]>([]);
   const [displayRows, setDisplayRows] = useState<StudentData[]>([]);
   const [child, setChild] = useState<AutoCompleteList>();
+  const [showEditChild, setShowEditChild] = useState(false);
 
   const [students, setStudents] = useState<AutoCompleteList[]>([]);
   useEffect(() => {
@@ -36,8 +49,8 @@ export default function StudentList() {
         let i: AutoCompleteList[] = [];
         let r: StudentData[] = [];
         res.data.forEach((item) => {
-          i.push({ id: item.id_elev, value: `${item.prenom} ${item.nom}` });
-          r.push(createData(item.prenom, item.nom, item.date_naiss, item));
+          i.push({ id: item.id, value: `${item.firstName} ${item.lastName}` });
+          r.push(createData(item.firstName, item.lastName, item.birthDate, item));
         });
         setStudents(i);
         setRows(r);
@@ -50,28 +63,42 @@ export default function StudentList() {
   useEffect(() => {
     console.log(rows);
     let lessons = rows.filter((r) => {
-      return child ? r.item.id_elev === child.id : true;
+      return child ? r.item.id === child.id : true;
     });
     console.log(lessons);
     setDisplayRows(lessons);
   }, [child]);
   const createData = (
-    prenom: string,
-    nom: string,
-    date_naiss: string,
+    firstName: string,
+    lastName: string,
+    birthDate: string,
     item: any
   ): StudentData => {
     return {
-      prenom,
-      nom,
-      date_naiss,
+      firstName,
+      lastName,
+      birthDate,
       item,
     };
   };
+
   const clickIcon = (item: any) => {
-    console.log(item);
+    setChild(item);
+
+    history.push({
+      pathname: "/viewChild/" + item.id,
+      state: { child: item },
+    });
+  };
+
+  const CloseEdit = () => {
+    setShowEditChild(false);
   };
   const cells: HeadCell[] = [
+
+    { id: "firstName", label: "שם פרטי", isSortable: true },
+    { id: "lastName", label: "שם משפחה", isSortable: true },
+    { id: "birthDate", label: "תאריך לידה", isSortable: true },
     {
       id: "edit",
       label: "עריכה",
@@ -79,49 +106,46 @@ export default function StudentList() {
       handleClickIcon: clickIcon,
       isSortable: false,
     },
-    { id: "prenom", label: "שם פרטי", isSortable: true },
-    { id: "nom", label: "שם משפחה", isSortable: true },
-    { id: "date_naiss", label: "תאריך לידה", isSortable: true },
   ];
   return (
-    <Grid
-      className="container"
-      spacing={2}
-      alignItems="flex-end"
-      justify="flex-end"
-      container
-    >
+
+    <Card className={classes.card}>
+
       <Grid
         spacing={2}
         direction="column"
-        alignItems="center"
-        justify="center"
         container
       >
         <Grid item xs={12}>
-          <h1>רשימת ילדים</h1>
+          <h1 className="primary">רשימת ילדים</h1>
+        </Grid>
+        <Grid
+          direction="row"
+          item
+          xs={12}
+          justify="flex-end"
+          container
+        >
+          <Grid item xs={3}>
+            <FormControl
+              color="primary"
+              variant="outlined"
+              className={classes.formControl}
+            >
+              <CustomAutoComplete
+                label="שם הילד"
+                data={students}
+                setValue={setChild}
+                isLabelShrink={true}
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <EnhancedTable headCells={cells} rows={displayRows} />
         </Grid>
       </Grid>
-      <Grid container spacing={8}>
-        <Grid item xs={12} spacing={8}>
-          <FormControl
-            style={{ width: "30%", float: "right", margin: "2%" }}
-            color="primary"
-            variant="outlined"
-            className={classes.formControl}
-          >
-            <CustomAutoComplete
-              label="שם הילד"
-              data={students}
-              setValue={setChild}
-              isLabelShrink={true}
-            />
-          </FormControl>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <EnhancedTable headCells={cells} rows={displayRows} />
-      </Grid>
-    </Grid>
+    </Card>
+    // </Grid>
   );
 }

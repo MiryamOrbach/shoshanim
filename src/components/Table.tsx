@@ -33,9 +33,9 @@ function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
+    a: { [key in Key]: number | string },
+    b: { [key in Key]: number | string }
+  ) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -105,8 +105,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                 ) : null}
               </TableSortLabel>
             ) : (
-              headCell.label
-            )}
+                headCell.label
+              )}
           </TableCell>
         ))}
       </TableRow>
@@ -120,9 +120,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
     },
     paper: {
-      width: "90%",
+      // width: "90%",
       direction: "ltr",
-      margin: "2% 5%",
+      // margin: "2% 5%",
     },
     header: {
       paddingLeft: "0",
@@ -153,7 +153,7 @@ interface TableProps {
 export default function EnhancedTable(props: TableProps) {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<string>(props.headCells[0].id);
+  const [orderBy, setOrderBy] = React.useState<string>("");
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -205,62 +205,62 @@ export default function EnhancedTable(props: TableProps) {
     rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
   let cells = props.headCells;
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <TableContainer
-        // style={{ direction: "rtl" }}
-        // className={classes.tableContainer}
+    // <div className={classes.root}>
+    <Paper className={classes.paper}>
+      <TableContainer
+      // style={{ direction: "rtl" }}
+      // className={classes.tableContainer}
+      >
+        <Table
+          className={classes.table}
+          aria-labelledby="tableTitle"
+          size={dense ? "small" : "medium"}
+          aria-label="enhanced table"
         >
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-            aria-label="enhanced table"
-          >
-            <EnhancedTableHead
-              headCells={cells}
-              classes={classes}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={props.rows.length}
-            />
-            <TableBody>
-              {stableSort(props.rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row: any, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
+          <EnhancedTableHead
+            headCells={cells}
+            classes={classes}
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+            rowCount={props.rows.length}
+          />
+          <TableBody>
+            {stableSort(props.rows, getComparator(order, orderBy))
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row: any, index) => {
+                const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow hover key={row.name}>
-                      {cells.map((item, idx) => {
-                        return (
-                          <TableCell>{renderComponent(row, item)}</TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[]}
-          count={props.rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          labelDisplayedRows={({ from, to, count }) =>
-            `${from} - ${to} מתוך ${count}`
-          }
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </div>
+                return (
+                  <TableRow hover key={row.name}>
+                    {cells.map((item, idx) => {
+                      return (
+                        <TableCell>{renderComponent(row, item)}</TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[]}
+        count={props.rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        labelDisplayedRows={({ from, to, count }) =>
+          `${from} - ${to} מתוך ${count}`
+        }
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </Paper>
+    // </div>
   );
 }
