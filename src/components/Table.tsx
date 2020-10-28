@@ -16,6 +16,7 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
+// import { AddCircle } from "@material-ui/icons";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -57,6 +58,7 @@ export interface HeadCell {
   type?: string;
   handleClickIcon?: any;
   isSortable?: boolean;
+  icon?: any;
 }
 
 interface EnhancedTableProps {
@@ -85,10 +87,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             // align="left"
             sortDirection={orderBy === headCell.id ? order : false}
+            className={classes.header}
+
           >
             {headCell.isSortable ? (
               <TableSortLabel
-                className={classes.header}
+                className={classes.sortHeader}
                 active={orderBy === headCell.id}
                 direction={
                   orderBy === headCell.id && headCell.isSortable ? order : "asc"
@@ -125,7 +129,11 @@ const useStyles = makeStyles((theme: Theme) =>
       // margin: "2% 5%",
     },
     header: {
+      fontWeight: "bold"
+    },
+    sortHeader: {
       paddingLeft: "0",
+
     },
     table: {
       minWidth: 750,
@@ -146,7 +154,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-interface TableProps {
+export interface TableProps {
   headCells: HeadCell[];
   rows: any[];
 }
@@ -192,7 +200,10 @@ export default function EnhancedTable(props: TableProps) {
             component="span"
             onClick={() => item.handleClickIcon(row.item)}
           >
-            <EditIcon />
+            {
+              item.icon ? item.icon :
+                <EditIcon />
+            }
           </IconButton>
         );
 

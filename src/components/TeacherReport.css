@@ -1,0 +1,21 @@
+@media print {
+  #divToPrint1 {
+    /* display: inline; */
+    width: 210mm;
+    min-height: 297mm;
+    /* marginLeft: "auto",
+    marginRight: "auto", */
+    display: block !important;
+  }
+}
+.button {
+  background-color: red;
+}
+/* display:"inline",
+    print: {
+     backgroundColor: '#f5f5f5',
+     width: '210mm',
+     minHeight: '297mm',
+     marginLeft: 'auto',
+     marginRight: 'auto',
+     display:'none' */

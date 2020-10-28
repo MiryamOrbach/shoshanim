@@ -24,19 +24,22 @@ import BaseRequest from "../helpers/BaseRequest";
 import { Subscription } from "rxjs";
 
 interface GenerateControlsProps {
-  serverArr: ServerData[];
+  serverData: ServerData[];
+  setServerData: Function;
   arr: ChildData[];
   title: string;
   isEdit: boolean;
   childId?: string;
   fileName: string;
   handleNext: Function;
+  setFinish?: Function;
 }
 
 export default function GenerateControls(props: GenerateControlsProps) {
+
   const [arr, setArr] = useState(props.arr);
 
-  let arrHelper = [...props.serverArr];
+  let arrHelper = [...props.serverData];
   const ref = useRef(arrHelper);
   let s: Subscription;
 
@@ -44,61 +47,63 @@ export default function GenerateControls(props: GenerateControlsProps) {
     ref.current = arrHelper;
   }, [arrHelper]);
 
+
   const handleTextChange = (item: ChildData, e: any) => {
     arrHelper[arrHelper.findIndex((a) => a.key === item.id)].value =
       e.target.value;
+    let helpArr = [...arr];
+    let index = arr.indexOf(item);
+    helpArr[index].value = e.target.value;
+    if (helpArr[index].isRequired && helpArr[index].isError && item.value)
+      helpArr[index].isError = false;
+    // helpArr[index]
+    setArr(helpArr);
   };
   const handleChange = (item: ChildData) => {
     let helpArr = [...arr];
     let index = arr.indexOf(item);
     helpArr[index].value = !helpArr[index].value;
-    arrHelper[arrHelper.findIndex((a) => a.key === item.id)].value =
-      arr[index].value;
+    arrHelper[arrHelper.findIndex(a => a.key === item.id)].value = arr[index].value;
     setArr(helpArr);
   };
-  useEffect(() => {}, [props.serverArr]);
+
   useEffect(() => {
     s = ChildDataService.next$.subscribe(() => {
-      const formdata = new FormData();
-      formdata.append("data", JSON.stringify(ref.current));
-      console.log("xxx", JSON.stringify(ref.current));
-      if (props.isEdit) {
-        formdata.append("action", "update");
-        //append childId
-      } else formdata.append("action", "add");
-
-      BaseRequest("student", formdata)
-        .then((res) => {
-          console.log(res);
-          props.handleNext();
-        })
-        .catch((e) => console.log(e));
+      props.setServerData(ref.current);
+      if (props.fileName === "academic" && props.setFinish) {
+        props?.setFinish(true);
+      }
+      else
+        props.handleNext();
     });
     return () => {
       s.unsubscribe();
     };
-  }, []);
+
+  }, [])
 
   const handleRadioChange = (e: any, item: ChildData) => {
     let helpArr = [...arr];
     let index = arr.indexOf(item);
     helpArr[index].value = +e.target.value;
-    arrHelper[arrHelper.findIndex((a) => a.key === item.id)].value = +e.target
-      .value;
+    arrHelper[arrHelper.findIndex(a => a.key === item.id)].value = +e.target.value;
     setArr(helpArr);
   };
   const componentRender = (item: ChildData, idx: number) => {
     switch (item.type) {
       case "text":
         return (
-          <Grid key={idx} item xs={4}>
+          <Grid key={idx} item xs={12}>
             <TextField
               style={{ width: "100%", direction: "rtl" }}
               variant="outlined"
               placeholder=""
               label={item.lable}
               value={item.value}
+              InputLabelProps={{ shrink: item.value ? true : false }}
               type={item.kind}
+              error={item.isRequired && item.isError}
+              helperText={item.isError && item.isRequired && `${item.lable} שדה חובה`}
               onChange={(e) => handleTextChange(item, e)}
             ></TextField>
           </Grid>
@@ -112,6 +117,7 @@ export default function GenerateControls(props: GenerateControlsProps) {
               placeholder=""
               label={item.lable}
               value={item.value}
+              InputLabelProps={{ shrink: item.value ? true : false }}
               multiline
               onChange={(e) => handleTextChange(item, e)}
             ></TextField>
@@ -119,13 +125,13 @@ export default function GenerateControls(props: GenerateControlsProps) {
         );
       case "check":
         return (
-          <Grid key={idx} item xs={4}>
+          <Grid key={idx} item xs={12}>
             <Card style={{ padding: 0 }} variant="outlined">
               <CardContent style={{ padding: 0, height: 55 }}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={item.value}
+                      checked={item.value ? true : false}
                       onChange={() => handleChange(item)}
                       inputProps={{ "aria-label": "primary checkbox" }}
                     />
@@ -142,13 +148,14 @@ export default function GenerateControls(props: GenerateControlsProps) {
           <Grid key={idx} item xs={12}>
             <Card style={{ padding: 0 }} variant="outlined">
               <CardContent style={{ padding: 0, minHeight: 55 }}>
+
                 <FormControlLabel
                   control={
                     <FormControl variant="outlined">
                       <RadioGroup
                         aria-label="gender"
                         name="gender1"
-                        style={{ flexDirection: "row" }}
+                        style={{ flexDirection: 'row', marginRight: 22 }}
                         value={item.value !== undefined ? item.value : -1}
                         onChange={(e) => {
                           handleRadioChange(e, item);
@@ -159,20 +166,15 @@ export default function GenerateControls(props: GenerateControlsProps) {
                             <FormControlLabel
                               key={idx}
                               value={idx}
-                              control={
-                                <Radio style={{ flexDirection: "row" }} />
-                              }
+                              control={<Radio style={{ flexDirection: "row" }} />}
                               label={child.lable}
-                              style={{ color: "black" }}
+                              style={{ color: 'black' }}
                             />
                           );
                         })}
-                      </RadioGroup>
-                    </FormControl>
+                      </RadioGroup></FormControl>
                   }
                   label={item.lable}
-                  style={{ color: "blue" }}
-                  labelPlacement="end"
                 />
               </CardContent>
             </Card>
@@ -192,74 +194,71 @@ export default function GenerateControls(props: GenerateControlsProps) {
   };
 
   const getGridWrapper = (item: ChildData, idx: number) => {
-    return <>{componentRender(item, idx)}</>;
+    return (
+      <>
+        {
+          componentRender(item, idx)
+        }
+      </>
+    );
   };
   return (
     <>
-      <Grid
-        justify="center"
-        alignItems="center"
-        container
-        style={{ margin: "2%", width: "98%" }}
-      >
+      <Grid justify="center" alignItems="center" container style={{ margin: '2%', width: '98%' }}>
         <Grid item xs={12}>
-          <Card style={{ marginRight: "2%" }} variant="outlined">
-            <CardHeader
-              style={{ color: "blue" }}
-              title={props.title}
-            ></CardHeader>
-            <CardContent>
-              <Grid
-                direction="row-reverse"
-                spacing={3}
-                xs={12}
-                justify="flex-start"
-                alignItems="flex-start"
-                container
-                alignContent="flex-start"
-              >
-                {arr.map((item, idx) => {
-                  if (!item.condition) return getGridWrapper(item, idx);
-                  let itemCondition =
-                    arr[
-                      arr.findIndex(
-                        (s) =>
-                          s.id ===
-                          (item.conditionById !== undefined &&
-                            item.conditionById[0])
-                      )
-                    ];
-                  if (itemCondition && itemCondition.type === "radio") {
-                    item.display = false;
-                    item.conditionByIdValueRadio?.forEach((element) => {
-                      if (
-                        itemCondition.value !== undefined &&
-                        itemCondition.childrenLables &&
-                        itemCondition.childrenLables[itemCondition?.value]
-                          .id === element
-                      )
-                        item.display = true;
-                      return;
-                    });
-                  }
+          <Grid item xs={12}>
+            <Typography variant="h5" style={{ marginBottom: 8 }} color="primary">{props.title}</Typography>
+          </Grid>
+          <Grid
+            direction="row-reverse"
+            spacing={3}
+            xs={12}
+            justify="flex-start"
+            alignItems="flex-start"
+            container
+            alignContent="flex-start"
+          >
+            {arr.map((item, idx) => {
+              if (!item.condition) return getGridWrapper(item, idx);
+              let itemCondition =
+                arr[
+                arr.findIndex(
+                  (s) =>
+                    s.id ===
+                    (item.conditionById !== undefined && item.conditionById[0])
+                )
+                ];
+              if (itemCondition && itemCondition.type === "radio") {
+                item.display = false;
+                item.conditionByIdValueRadio?.forEach((element) => {
+                  if (
+                    itemCondition.value !== null &&
+                    itemCondition.value !== undefined &&
+                    itemCondition.childrenLables &&
+                    itemCondition.childrenLables[itemCondition?.value].id ===
+                    element
+                  )
+                    item.display = true;
+                  return;
+                });
+              }
 
-                  return (item.condition &&
-                    (itemCondition?.value !== undefined
-                      ? itemCondition.value
-                      : false) ===
-                      (item.conditionByIdValue !== undefined
-                        ? item.conditionByIdValue
-                        : true)) ||
-                    item.display ||
-                    !item.condition
-                    ? getGridWrapper(item, idx)
-                    : null;
-                })}
-              </Grid>
-            </CardContent>
-          </Card>
+              return (item.condition &&
+                (itemCondition?.value !== undefined
+                  ? itemCondition.value
+                  : false) ===
+                (item.conditionByIdValue !== undefined
+                  ? item.conditionByIdValue
+                  : true)) ||
+                item.display ||
+                !item.condition
+                ? getGridWrapper(item, idx)
+                : null;
+            })}
+          </Grid>
         </Grid>
       </Grid>
+
     </>
   );
 }

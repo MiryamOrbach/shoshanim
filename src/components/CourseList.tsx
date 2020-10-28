@@ -27,8 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
   card: {
-    width: "74%",
-    margin: "2% 15%",
+    margin: "1% 15%",
     padding: "0 2% 2% 2%",
     direction: "rtl"
 
@@ -153,10 +152,10 @@ export default function CourseList() {
         res.data.forEach((item: any) => {
           rows.push(
             createData(
-              `${item.eleve_lastname} ${item.eleve_name}`,
+              `${item.student_firstname} ${item.student_lastname}`,
               `${item.interv_prenom} ${item.interv_nom}`,
-              item.salle,
-              item.date,
+              item.name_salle,
+              item.date_cours,
               item.id_elev,
               item.id_interv,
               item
@@ -179,6 +178,7 @@ export default function CourseList() {
   };
   const CloseEdit = () => {
     setShowEditCourse(false);
+    getCours();
   };
   const createData = (
     childName: string,
@@ -280,7 +280,7 @@ export default function CourseList() {
             <Grid item xs={3} className={classes.grid}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
-                  // style={{ width: "100%" }}
+                  style={{ direction: "rtl" }}
                   color="primary"
                   inputVariant="outlined"
                   id="date-picker-dialog-outlined"
@@ -313,7 +313,7 @@ export default function CourseList() {
         }}
         open={showEditCourse}
       >
-        <DialogContent>
+        <DialogContent style={{ width: 500 }}>
           <EditCourse ok={CloseEdit} course={course} />
         </DialogContent>
       </Dialog>

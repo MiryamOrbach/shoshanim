@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   Grid,
+  Card,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import BaseRequest from "../helpers/BaseRequest";
@@ -22,6 +23,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     float: "left",
     margin: "2%",
+  },
+  button: { width: "100%" },
+  card: {
+    margin: "1% 15%",
+    padding: "0 2% 2% 2%",
+    direction: "rtl"
+
   },
 }));
 export default function TeacherList() {
@@ -73,6 +81,11 @@ export default function TeacherList() {
     console.log(item);
   };
   const cells: HeadCell[] = [
+
+    { id: "activite", label: "תחום", isSortable: true },
+    { id: "koupa", label: "קופת חולים", isSortable: true },
+    { id: "nom", label: "שם משפחה", isSortable: true },
+    { id: "prenom", label: "שם פרטי", isSortable: true },
     {
       id: "edit",
       label: "עריכה",
@@ -80,62 +93,56 @@ export default function TeacherList() {
       handleClickIcon: clickIcon,
       isSortable: false,
     },
-    { id: "activite", label: "תחום", isSortable: true },
-    { id: "koupa", label: "קופת חולים", isSortable: true },
-    { id: "nom", label: "שם משפחה", isSortable: true },
-    { id: "prenom", label: "שם פרטי", isSortable: true },
   ];
   return (
     <>
+
+      <Card className={classes.card}>‏
+        <Grid
+          item
+          spacing={2}
+          direction="column"
+
+          container
+        >
+          <Grid item xs={12}>
+            <h1 className="primary">רשימת מטפלים</h1>
+          </Grid>
+          <Grid container item direction="row" xs={12} justify="flex-end">
+
+            <Grid item xs={2} >
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  setShowAddTeacher(true);
+                }}
+              >
+                הוספת עובד
+          </Button>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <EnhancedTable headCells={cells} rows={rows} />
+          </Grid>
+        </Grid>
+      </Card>
       <Dialog
         onClose={() => {
           setShowAddTeacher(false);
         }}
         open={showAddTeacher}
       >
-        <DialogContent>
+        <DialogContent style={{ width: 500, height: 600 }}>
           <AddTeacher
             ok={() => {
               setShowAddTeacher(false);
+              getTeachers();
             }}
           />
         </DialogContent>
       </Dialog>
-      <Grid
-        className="container"
-        spacing={2}
-        alignItems="flex-end"
-        justify="flex-end"
-        container
-      >
-        ‏
-        <Grid
-          item
-          spacing={2}
-          direction="column"
-          alignItems="center"
-          justify="center"
-          container
-        >
-          <Grid item xs={12}>
-            <h1>רשימת מטפלים</h1>
-          </Grid>
-        </Grid>
-        <Grid item xs={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              setShowAddTeacher(true);
-            }}
-          >
-            הוספת עובד
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <EnhancedTable headCells={cells} rows={rows} />
-        </Grid>
-      </Grid>
     </>
   );
 }

@@ -1,45 +1,28 @@
-// import React, { useState, Fragment } from "react";
-// import Header from "./Header";
-// // import Icon from "@material-ui/core/Icon";
-// import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-// import "./Home.css";
-// import { Button } from "@material-ui/core";
 
-// export default function Home() {
-//   const [selectedDate, handleDateChange] = useState(new Date());
 
-//   return (
-//     <div>
-//       <div className="notafication">
-//         <p>
-//           <NotificationsNoneIcon />
-//           הגיע טופס הרשמה חדש! אני רוצה לראות אותו
-//         </p>
-//       </div>
-//       <div className="buttons">
-//         <Button variant="contained" color="primary">
-//           הוספת שיעור
-//         </Button>
-//         <Button variant="contained" color="primary">
-//           הוספת אסיפה
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// }
-
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import Header from "./Header";
 import "./Home.css";
 import { Button, Dialog, DialogContent } from "@material-ui/core";
 import AddCourse from "./AddCourse";
 import AddMeeting from "./AddMeeting";
+import BaseRequest from "../helpers/BaseRequest";
+import { useHistory } from "react-router";
 
 export default function Home() {
   const [selectedDate, handleDateChange] = useState(new Date());
   const [showAssCourse, setShowAddCourse] = useState(false);
   const [showAddMeeting, setShowAddMeeting] = useState(false);
+  const [isNew, setIsNew] = useState(false)
+  const history = useHistory();
+  useEffect(() => {
+    BaseRequest("getNewstudent").then((res) => {
+      console.log(res);
+      if (res.success)
+        setIsNew(true);
 
+    }).catch((e) => console.log(e))
+  }, [])
   const closeMeeting = () => {
     setShowAddMeeting(false);
   };
@@ -56,16 +39,17 @@ export default function Home() {
         }}
         open={showAddMeeting}
       >
-        <DialogContent>
+        <DialogContent style={{ width: 500, height: 420 }}>
           <AddMeeting ok={closeMeeting} />
         </DialogContent>
       </Dialog>
-      {/* <div className="header">
-        <Header></Header>
-      </div> */}
-      <div className="notafication">
-        <p>הגיע טופס הרשמה חדש! אני רוצה לראות אותו</p>
-      </div>
+
+      {
+        isNew &&
+        <div className="notafication" onClick={() => history.push("/students")}>
+          <p>הגיע טופס הרשמה חדש! אני רוצה לראות אותו</p>
+        </div>
+      }
       <div className="buttons">
         <Button
           variant="contained"
@@ -92,7 +76,7 @@ export default function Home() {
         }}
         open={showAssCourse}
       >
-        <DialogContent>
+        <DialogContent style={{ width: 500, height: 600 }}>
           <AddCourse ok={closeCourse} />
         </DialogContent>
       </Dialog>

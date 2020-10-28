@@ -4,11 +4,31 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
+import BaseRequest from "../helpers/BaseRequest";
 import EnhancedTable from "./Table";
 export default function InfosFinacieres() {
   const arr = ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%"];
   const [indexChecked, setIndexChecked] = React.useState(0);
+
+  useEffect(() => {
+    BaseRequest("getRportCours")
+      .then((res: { data: any[] }) => {
+        console.log(res);
+        // let i: AutoCompleteList[] = [];
+        // let nt: NextTreatmentData[] = [];
+        // res.data.forEach((item) => {
+        //   //   i.push({ id: item.id_elev, value: `${item.prenom} ${item.nom}` });
+        //   nt.push(createData(`${item.interv_prenom} ${item.interv_nom}`, item.date_cours, item));
+        // })
+        // setRows(nt)
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+  }, [])
+
   const handleChange = (index: number) => {
     debugger;
     setIndexChecked(index + 1);

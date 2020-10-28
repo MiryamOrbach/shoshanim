@@ -11,7 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
+.primary {
+  color: #214078;
+}
+.rtl {
+  direction: rtl;
+}
 /* :root {
   --main-color: #214078;
   --secondary: #14738c;

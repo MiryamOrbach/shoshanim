@@ -12,6 +12,9 @@ export interface ChildData {
   childrenLables?: ChildData[];
   display?: boolean;
   value?: any;
+  isError?:boolean;
+  isRequired?:boolean;
+
 }
 export interface ServerData {
   key: string;
@@ -25,6 +28,7 @@ export default function PersonalData() {
       lable: "שם פרטי",
       kind: "text",
       condition: false,
+      isRequired:true
     },
     {
       type: "text",
@@ -32,6 +36,8 @@ export default function PersonalData() {
       lable: "שם משפחה",
       kind: "text",
       condition: false,
+      isRequired:true
+
     },
     {
       type: "text",
@@ -39,7 +45,7 @@ export default function PersonalData() {
       lable: "תאריך לידה",
       kind: "date",
       value: format(new Date(), "dd-mm-yyyy"),
-
+      isRequired:true,
       condition: false,
     },
     {
@@ -55,6 +61,8 @@ export default function PersonalData() {
       lable: "תעודת זהות",
       condition: false,
       kind: "number",
+      isRequired:true
+
     },
     {
       type: "text",
@@ -62,6 +70,8 @@ export default function PersonalData() {
       lable: "כתובת",
       condition: false,
       kind: "text",
+      isRequired:true
+
     },
     {
       type: "text",
@@ -69,6 +79,8 @@ export default function PersonalData() {
       lable: "טלפון האם",
       kind: "number",
       condition: false,
+      isRequired:true
+
     },
     {
       type: "text",
@@ -76,6 +88,8 @@ export default function PersonalData() {
       lable: "טלפון האב",
       kind: "number",
       condition: false,
+      isRequired:true
+
     },
     {
       type: "text",
@@ -153,6 +167,8 @@ export default function PersonalData() {
       lable: "קופת חולים",
       kind: "text",
       condition: false,
+      isRequired:true
+
     },
     {
       type: "check",

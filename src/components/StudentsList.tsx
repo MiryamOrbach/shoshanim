@@ -1,10 +1,11 @@
-import { Button, Card, FormControl, Grid, makeStyles } from "@material-ui/core";
+import { Button, Card, CardContent, FormControl, Grid, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import BaseRequest from "../helpers/BaseRequest";
 import { AutoCompleteList } from "./AddCourse";
 import CustomAutoComplete from "./CustomAutoComplete";
 import EnhancedTable, { HeadCell } from "./Table";
 import { useHistory } from "react-router-dom";
+import { AddCircle } from "@material-ui/icons";
 
 export interface StudentData {
   firstName: string;
@@ -19,8 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
   card: {
-    width: "74%",
-    margin: "2% 15%",
+    margin: "1% 15%",
     padding: "0 2% 2% 2%",
     direction: "rtl"
 
@@ -110,42 +110,44 @@ export default function StudentList() {
   return (
 
     <Card className={classes.card}>
-
-      <Grid
-        spacing={2}
-        direction="column"
-        container
-      >
-        <Grid item xs={12}>
-          <h1 className="primary">רשימת ילדים</h1>
-        </Grid>
+      <CardContent>
         <Grid
-          direction="row"
-          item
-          xs={12}
-          justify="flex-end"
+          spacing={2}
+          direction="column"
           container
         >
-          <Grid item xs={3}>
-            <FormControl
-              color="primary"
-              variant="outlined"
-              className={classes.formControl}
-            >
-              <CustomAutoComplete
-                label="שם הילד"
-                data={students}
-                setValue={setChild}
-                isLabelShrink={true}
-              />
-            </FormControl>
+          <Grid item xs={12}>
+            <h1 className="primary">רשימת ילדים</h1>
+          </Grid>
+          <Grid
+            direction="row"
+            item
+            xs={12}
+            justify="flex-end"
+            container
+          >
+            <Grid item xs={3}>
+              <FormControl
+                color="primary"
+                variant="outlined"
+                className={classes.formControl}
+              >
+                <CustomAutoComplete
+                  label="שם הילד"
+                  data={students}
+                  setValue={setChild}
+                  isLabelShrink={true}
+                />
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <EnhancedTable headCells={cells} rows={displayRows} />
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <EnhancedTable headCells={cells} rows={displayRows} />
-        </Grid>
-      </Grid>
+      </CardContent>
     </Card>
+
     // </Grid>
   );
 }

@@ -3,29 +3,41 @@ import GenerateControls from "./GenerateControls";
 import { FileProps } from "./PersonalFile";
 import MedicalData from "./MedicalData";
 import { ServerData, ChildData } from "./PersonalData";
-export default function MedicalFile(props:FileProps) {
+import BaseRequest from "../helpers/BaseRequest";
+export default function MedicalFile(props: FileProps) {
 
-  const [serverArr,setServerArr]=useState<ServerData[]>([]);
-  const [arr,setArr]=useState<ChildData[]>(MedicalData());
+  const [arr, setArr] = useState<ChildData[]>(MedicalData());
 
   const fetchData = () => {
     let server: ServerData[] = []
     if (!props.isEdit) {
-      arr.forEach((item, idx) => { item.id && server.push({ key: item.id, value: item.value!==undefined?item.value:null }) });
-      setServerArr(server)
+      arr.forEach((item, idx) => { item.id && server.push({ key: item.id, value: item.value !== undefined ? item.value : null }) });
+      props.setServerData(server)
+    }
+    else {
+      let arrHelper = [...arr];
+      const formData = new FormData();
+      formData.append("student", props.id || "")
+      BaseRequest("getStudent", formData).then((res) => {
+        console.log(res.data);
+        let arrS: any[];
+        let d = res.data[0].medical_data.replace(/'/g, '"');
+        arrS = [...JSON.parse(d)];
+        props.setServerData(arrS)
+        arrS.forEach((item, idx) => {
+          arrHelper[arrHelper.findIndex(i => i.id === item.key)].value = item.value
+        })
+        setArr(arrHelper)
+      }).catch((e) => {
+        console.log(e)
+      })
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchData();
-  },[])
-    //else{
-    //   BaseRequest("ur")
-    // set serverarr response
-    // serverarr.forEach((item,idx)=>{
-    //   arr[arr.findIndex(i=>i.id===item.id)].value=item.value
-    // });
-  return(
-    <GenerateControls handleNext={props.handleNext} isEdit={props.isEdit} serverArr={serverArr} arr={arr} fileName="medical" title={props.title}/>
+  }, [])
+  return (
+    <GenerateControls handleNext={props.handleNext} isEdit={props.isEdit} serverData={props.serverData} setServerData={props.setServerData} arr={arr} fileName="medical" title={props.title} />
   );
 }

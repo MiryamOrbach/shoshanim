@@ -8,6 +8,7 @@ interface CustomAutoCompleteProps {
   isLabelShrink?: boolean;
   value?: any;
   setValue?: Function;
+  isError?: boolean;
 }
 export default function CustomAutoComplete({
   label,
@@ -15,6 +16,7 @@ export default function CustomAutoComplete({
   isLabelShrink,
   value,
   setValue,
+  isError
 }: CustomAutoCompleteProps) {
   const [selected, setSelected] = useState<AutoCompleteList | string>("");
   const handleChange = (e: any, newValue: AutoCompleteList) => {
@@ -45,12 +47,14 @@ export default function CustomAutoComplete({
               InputLabelProps={{
                 shrink: true,
               }}
+
               label={label}
               variant="outlined"
             />
           ) : (
-            <TextField {...params} label={label} variant="outlined" />
-          )}
+              <TextField {...params} error={isError}
+                helperText={isError ? `${label} חובה` : ""} label={label} variant="outlined" />
+            )}
         </>
       )}
     />

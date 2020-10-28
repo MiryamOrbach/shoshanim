@@ -1,18 +1,18 @@
 export default interface Course{
-    date?: string;
+    date_cours?: string;
     id_interv?:string;
     id_elev?:string;
     eleve_lastname?: string;
     eleve_name?: string;
-    heure?: string;
+    hour_cours?: string;
     id_cours?: string;
     interv_nom?: string;
     interv_prenom?: string;
     kavoua?: string;
-    mode_fact?: string;
+    id_mode_fact?: string;
     nom_mode?: string;
     regle_interv_ok?:string;
-    salle?:string;
+    id_salle?:string;
     tarif_cours?:string;
     tarif_interv?:string;
     regle_parent_ok?:string;
