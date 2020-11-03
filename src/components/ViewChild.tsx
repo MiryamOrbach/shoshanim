@@ -80,6 +80,10 @@ export default function ViewChild(props: any) {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
+
+  const scroll = () => {
+    document.getElementById("card")?.scrollTo(0, 0);
+  }
   const handleChangeIndex = (index: number) => {
     setValue(index);
   };
@@ -90,7 +94,7 @@ export default function ViewChild(props: any) {
 
       margin: "4% 15%"
     }}>
-      <CardContent style={{
+      <CardContent id="card" style={{
         minHeight: "545px",
         maxHeight: "545px", overflowY: "auto"
       }}>
@@ -106,6 +110,7 @@ export default function ViewChild(props: any) {
           </Grid>
           <Grid item xs={12}>
             <Tabs
+              style={{ direction: "rtl" }}
               value={value}
               onChange={handleChange}
               indicatorColor="primary"
@@ -114,29 +119,29 @@ export default function ViewChild(props: any) {
               aria-label="full width tabs example"
             >
               <Tab label="נתונים אישיים" {...a11yProps(0)} />
-              <Tab label="נתונים פיננסיים" {...a11yProps(1)} />
-              <Tab label="שיעורים עתידיים" {...a11yProps(2)} />
+              <Tab label="טפסים" {...a11yProps(1)} />
+              <Tab label="נתונים פיננסיים" {...a11yProps(2)} />
               <Tab label="הערות" {...a11yProps(3)} />
-              <Tab label="טפסים" {...a11yProps(4)} />
-            </Tabs>
+              <Tab label="שיעורים עתידיים" {...a11yProps(4)} />‏
+           </Tabs>
+
 
             <TabPanel value={value} index={0}>
-              <ChildDetails isEdit={true} id={props.match.params.id}/>
+              <ChildDetails scroll={scroll} isEdit={true} id={props.match.params.id} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <InfosFinacieres />
+              <AttachFiles
+                id={props.match.params.id}
+                name={`${params.lastName} ${params.firstName}`} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <NextTreatments id={props.match.params.id} />
+              <InfosFinacieres />
             </TabPanel>
             <TabPanel value={value} index={3}>
               <Comments id={props.match.params.id} />
             </TabPanel>
             <TabPanel value={value} index={4}>
-              <AttachFiles
-                id={props.match.params.id}
-                name={`${params.lastName} ${params.firstName}`}
-              />
+              <NextTreatments id={props.match.params.id} />
             </TabPanel>
           </Grid>
         </Grid>

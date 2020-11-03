@@ -5,27 +5,27 @@ export default function AcademicHistory() {
     {
       type: "check",
       id: "stayGrade",
-      lable: "האם הילד נשאר שנתיים באותה כיתה?",
+      lable: "?האם הילד נשאר שנתיים באותה כיתה",
       condition: false,
     },
     {
       type: "text",
       id: "whichGrade",
-      lable: "באיזה כיתה?",
+      lable: "?באיזה כיתה",
       condition: true,
       conditionById: ["stayGrade"],
     },
     {
       type: "textArea",
       id: "stayGradeReasons",
-      lable: "מאלו סיבות?",
+      lable: "?מאלו סיבות",
       condition: true,
       conditionById: ["stayGrade"],
     },
     {
       type: "check",
       id: "learningDeficits",
-      lable: "האם אתם מרגישים שלילד שלכם יש קשיים בלמידה?",
+      lable: "?האם אתם מרגישים שלילד שלכם יש קשיים בלמידה",
       condition: false,
     },
 
@@ -39,7 +39,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "learningDeficitsKindStart",
-      lable: "מתי (השנה) התחילו הקשיים האלו?",
+      lable: "?מתי (השנה) התחילו הקשיים האלו",
       kind: "text",
       condition: true,
       conditionById: ["learningDeficits"],
@@ -90,7 +90,7 @@ export default function AcademicHistory() {
     },
     {
       type: "label",
-      lable: "האם אתם מודאגים לליקויים של הילד בתחומים האלה?",
+      lable: "?האם אתם מודאגים לליקויים של הילד בתחומים האלה",
       condition: false,
     },
     {
@@ -167,7 +167,7 @@ export default function AcademicHistory() {
     },
     {
       type: "label",
-      lable: "האם אתם מודאגים לליקויים של הילד בכלים האלה?",
+      lable: "?האם אתם מודאגים לליקויים של הילד בכלים האלה",
       condition: false,
     },
     {
@@ -214,7 +214,7 @@ export default function AcademicHistory() {
     {
       type: "radio",
       id: "privateTeacher",
-      lable: "האם הילד קיבל שיעורי עזר בבית ספר/מורה פרטי?",
+      lable: "?האם הילד קיבל שיעורי עזר בבית ספר/מורה פרטי",
       childrenLables: [
         { id: "privateTeacherYes", lable: "כן" },
         { id: "privateTeacherSometimes", lable: "לפעמים" },
@@ -225,7 +225,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "privateTeacherSubject",
-      lable: "באיזה מקצוע?",
+      lable: "?באיזה מקצוע",
       kind: "text",
       condition: true,
       conditionById: ["privateTeacher"],
@@ -248,7 +248,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "occupationalTherapistAge",
-      lable: "באיזה גיל/כיתה?",
+      lable: "?באיזה גיל/כיתה",
       kind: "text",
       condition: true,
       conditionById: ["occupationalTherapist"],
@@ -256,7 +256,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "occupationalTherapistTime",
-      lable: "לכמה זמן?",
+      lable: "?לכמה זמן",
       kind: "text",
       condition: true,
       conditionById: ["occupationalTherapist"],
@@ -286,7 +286,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "communicationClinicianAge",
-      lable: "באיזה גיל/כיתה?",
+      lable: "?באיזה גיל/כיתה",
       kind: "text",
       condition: true,
       conditionById: ["communicationClinician"],
@@ -294,7 +294,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "communicationClinicianTime",
-      lable: "לכמה זמן?",
+      lable: "?לכמה זמן",
       kind: "text",
       condition: true,
       conditionById: ["communicationClinician"],
@@ -324,7 +324,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "correctiveTeacherAge",
-      lable: "באיזה גיל/כיתה?",
+      lable: "?באיזה גיל/כיתה",
       kind: "text",
       condition: true,
       conditionById: ["correctiveTeacher"],
@@ -332,7 +332,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "correctiveTeacherTime",
-      lable: "לכמה זמן?",
+      lable: "?לכמה זמן",
       kind: "text",
       condition: true,
       conditionById: ["correctiveTeacher"],
@@ -362,7 +362,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "psychologistAge",
-      lable: "באיזה גיל/כיתה?",
+      lable: "?באיזה גיל/כיתה",
       kind: "text",
       condition: true,
       conditionById: ["psychologist"],
@@ -370,7 +370,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "psychologistTime",
-      lable: "לכמה זמן?",
+      lable: "?לכמה זמן",
       kind: "text",
       condition: true,
       conditionById: ["psychologist"],
@@ -400,7 +400,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "OrthopticsAge",
-      lable: "באיזה גיל/כיתה?",
+      lable: "?באיזה גיל/כיתה",
       kind: "text",
       condition: true,
       conditionById: ["Orthoptics"],
@@ -408,7 +408,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "OrthopticsTime",
-      lable: "לכמה זמן?",
+      lable: "?לכמה זמן",
       kind: "text",
       condition: true,
       conditionById: ["Orthoptics"],
@@ -443,7 +443,7 @@ export default function AcademicHistory() {
     {
       type: "radio",
       id: "privateTeacherNow",
-      lable: "האם הילד מקבל כעת שיעורי עזר בבית ספר/מורה פרטי?",
+      lable: "?האם הילד מקבל כעת שיעורי עזר בבית ספר/מורה פרטי",
       childrenLables: [
         { id: "privateTeacherNowYes", lable: "כן" },
         { id: "privateTeacherNowSometimes", lable: "לפעמים" },
@@ -454,7 +454,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "privateTeacherNowSubject",
-      lable: "באיזה מקצוע?",
+      lable: "?באיזה מקצוע",
       kind: "text",
       condition: true,
       conditionById: ["privateTeacherNow"],
@@ -477,7 +477,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "occupationalTherapistNowWhen",
-      lable: "ממתי?",
+      lable: "?ממתי",
       kind: "text",
       condition: true,
       conditionById: ["occupationalTherapistNow"],
@@ -507,7 +507,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "communicationClinicianNowWhen",
-      lable: "ממתי?",
+      lable: "?ממתי",
       kind: "text",
       condition: true,
       conditionById: ["communicationClinicianNow"],
@@ -537,7 +537,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "correctiveTeacherNowWhen",
-      lable: "ממתי?",
+      lable: "?ממתי",
       kind: "text",
       condition: true,
       conditionById: ["correctiveTeacherNow"],
@@ -567,7 +567,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "psychologistNowWhen",
-      lable: "ממתי?",
+      lable: "?ממתי",
       kind: "text",
       condition: true,
       conditionById: ["psychologistNow"],
@@ -597,7 +597,7 @@ export default function AcademicHistory() {
     {
       type: "text",
       id: "OrthopticsNowWhen",
-      lable: "ממתי?",
+      lable: "?ממתי",
       kind: "text",
       condition: true,
       conditionById: ["OrthopticsNow"],
@@ -721,7 +721,7 @@ export default function AcademicHistory() {
     {
       type: "textArea",
       id: "keepFraindsComments",
-      lable: "אם לא,מדוע?",
+      lable: "?אם לא,מדוע",
       condition: true,
       conditionById:["schoolOnTime"],
       conditionByIdValue:false

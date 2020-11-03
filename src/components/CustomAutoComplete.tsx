@@ -52,8 +52,8 @@ export default function CustomAutoComplete({
               variant="outlined"
             />
           ) : (
-              <TextField {...params} error={isError}
-                helperText={isError ? `${label} חובה` : ""} label={label} variant="outlined" />
+              <TextField {...params} error={isError && !selected}
+                helperText={isError && !selected ? `${label} חובה` : ""} label={label} variant="outlined" />
             )}
         </>
       )}

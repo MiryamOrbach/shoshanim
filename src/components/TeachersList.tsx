@@ -82,10 +82,10 @@ export default function TeacherList() {
   };
   const cells: HeadCell[] = [
 
+    { id: "prenom", label: "שם פרטי", isSortable: true },
+    { id: "nom", label: "שם משפחה", isSortable: true },
     { id: "activite", label: "תחום", isSortable: true },
     { id: "koupa", label: "קופת חולים", isSortable: true },
-    { id: "nom", label: "שם משפחה", isSortable: true },
-    { id: "prenom", label: "שם פרטי", isSortable: true },
     {
       id: "edit",
       label: "עריכה",

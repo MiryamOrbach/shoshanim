@@ -137,7 +137,6 @@ export default function GenerateControls(props: GenerateControlsProps) {
                     />
                   }
                   label={item.lable}
-                  labelPlacement="top"
                 />
               </CardContent>
             </Card>
@@ -244,7 +243,7 @@ export default function GenerateControls(props: GenerateControlsProps) {
               }
 
               return (item.condition &&
-                (itemCondition?.value !== undefined
+                ((itemCondition?.value !== undefined && itemCondition?.value !== null)
                   ? itemCondition.value
                   : false) ===
                 (item.conditionByIdValue !== undefined

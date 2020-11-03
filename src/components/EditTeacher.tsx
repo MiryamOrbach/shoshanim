@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Grid, CardContent, Card, Typography, TextField, FormControlLabel, Checkbox, FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import BaseRequest from '../helpers/BaseRequest';
+import Divider from '@material-ui/core/Divider';
 
 
 export default function EditTeacher(props: any) {
@@ -18,7 +19,13 @@ export default function EditTeacher(props: any) {
   const [updatedTeacher, setUpdatedTeacher] = useState({ ...params });
   const index = arr.indexOf(params.koupa);
   const index2 = payOptions.indexOf(params.tarif_interv);
-
+  const [errors, setErrors] = useState({
+    email: false,
+    tel: false,
+    tz: false,
+    prenom: false,
+    nom: false
+  })
   useEffect(() => {
     setSelectedValue(index + 1);
     setSelectedPayValue(index2 + 1);
@@ -33,10 +40,26 @@ export default function EditTeacher(props: any) {
   };
 
   const editTeacher = () => {
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(updatedTeacher));
-    BaseRequest("UpdateInterv", formData).then((res) => history.push("/teachers"));
+    let allValid = true;
+    let newTeacher = { ...updatedTeacher };
+    let keys = Object.keys(errors);
+    let errorsHelper: any;
+    errorsHelper = { ...errors }
+    keys.forEach((k) => {
+      if (!newTeacher[k]) {
+        errorsHelper[k] = true
+        allValid = false
+      }
+    })
+    if (allValid) {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(updatedTeacher));
+      BaseRequest("UpdateInterv", formData).then((res) => history.push("/teachers"));
+    }
+    else setErrors(errorsHelper);
   }
+
+
 
   return (
     <Grid style={{ backgroundColor: '#fafafa' }} justify="center" alignItems="center" container xs={12}>
@@ -46,69 +69,125 @@ export default function EditTeacher(props: any) {
             <Typography style={{ marginBottom: 15, marginTop: 15 }} variant="h5" color="primary">{`${params.nom} ${params.prenom}`}</Typography>
             <Grid justify="center" direction="column" spacing={3} alignItems="center" container item xs={12}>
               <Grid style={{ width: '70%' }} item xs={12}>
-                <Card style={{ marginTop: '2%', flexDirection: 'row' }} variant="outlined">
-                  <CardContent>
-                    <Grid style={{ width: '100%' }} container justify="center" alignItems="center">
-                      <Grid direction="column" spacing={2} item container xs={12} >
-                        <Grid item xs={12}>
-                          <Typography color="primary">
-                            מידע לגבי המטפל
+                <Grid style={{ width: '100%' }} container justify="center" alignItems="center">
+                  <Grid direction="column" spacing={2} item container xs={12} >
+                    <Grid item xs={12}>
+                      <Divider variant="middle" />
+                    </Grid>‏
+
+
+                    <Grid item xs={12}>
+                      <Typography color="primary">
+                        מידע לגבי המטפל
                     </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" value={updatedTeacher.nom} label="שם פרטי" onChange={(e) => { const t = { ...updatedTeacher }; t.nom = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" label="שם משפחה" value={updatedTeacher.prenom} onChange={(e) => { const t = { ...updatedTeacher }; t.prenom = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" label="תעודת זהות" value={updatedTeacher.tz} onChange={(e) => { const t = { ...updatedTeacher }; t.tz = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" label="תחום" value={updatedTeacher.activite} onChange={(e) => { const t = { ...updatedTeacher }; t.activite = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" label="כתובת" value={updatedTeacher.adresse} onChange={(e) => { const t = { ...updatedTeacher }; t.adresse = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" label="טלפון" value={updatedTeacher.tel} onChange={(e) => { const t = { ...updatedTeacher }; t.tel = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" label="2 טלפון" value={updatedTeacher.tel2} onChange={(e) => { const t = { ...updatedTeacher }; t.tel2 = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" label="אימייל" value={updatedTeacher.email} onChange={(e) => { const t = { ...updatedTeacher }; t.email = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" label="פרטי בנק" value={updatedTeacher.iban} onChange={(e) => { const t = { ...updatedTeacher }; t.iban = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField style={{ width: '100%', direction: "rtl" }} id="outlined-basic" label="מידע נוסף" value={updatedTeacher.infos} onChange={(e) => { const t = { ...updatedTeacher }; t.infos = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
-                        </Grid>
-                        <Grid justify="center" container item xs={12} direction="row">
-                          {
-                            arr.map((a, idx) => {
-                              return (<FormControlLabel
-                                control={
-                                  <Checkbox
-                                    checked={selectedValue == idx + 1}
-                                    onChange={(e) => { setSelectedValue(idx + 1); const t = { ...updatedTeacher }; t.koupa = arr[idx]; setUpdatedTeacher(t); }}
-                                    color="primary"
-                                    value={idx + 1}
-                                  />
-                                }
-                                label={arr[idx]}
-                              />)
-                            })
-                          }
-                        </Grid>
-                      </Grid>
                     </Grid>
-                  </CardContent>
-                </Card>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        value={updatedTeacher.prenom}
+                        label="שם פרטי"
+                        error={!updatedTeacher.prenom && errors.prenom}
+                        helperText={!updatedTeacher.prenom && errors.prenom ? "שם פרטי חובה" : ""}
+                        onChange={(e) => { const t = { ...updatedTeacher }; t.prenom = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        label="שם משפחה"
+                        value={updatedTeacher.nom}
+                        error={!updatedTeacher.nom && errors.nom}
+                        helperText={!updatedTeacher.nom && errors.nom ? "שם משפחה חובה" : ""}
+                        onChange={(e) => { const t = { ...updatedTeacher }; t.nom = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        label="תעודת זהות"
+                        value={updatedTeacher.tz}
+                        error={!updatedTeacher.tz && errors.tz}
+                        helperText={!updatedTeacher.tz && errors.tz ? "תעודת זהות חובה" : ""}
+                        onChange={(e) => { const t = { ...updatedTeacher }; t.tz = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        label="תחום" value={updatedTeacher.activite} onChange={(e) => { const t = { ...updatedTeacher }; t.activite = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        label="כתובת" value={updatedTeacher.adresse} onChange={(e) => { const t = { ...updatedTeacher }; t.adresse = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        label="טלפון"
+                        value={updatedTeacher.tel}
+                        error={!updatedTeacher.tel && errors.tel}
+                        helperText={!updatedTeacher.tel && errors.tel ? "תאריך חובה" : ""}
+                        onChange={(e) => { const t = { ...updatedTeacher }; t.tel = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        label="2 טלפון" value={updatedTeacher.tel2} onChange={(e) => { const t = { ...updatedTeacher }; t.tel2 = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        label="אימייל"
+                        value={updatedTeacher.email}
+                        error={!updatedTeacher.email && errors.email}
+                        helperText={!updatedTeacher.email && errors.email ? "אימייל חובה" : ""}
+                        onChange={(e) => { const t = { ...updatedTeacher }; t.email = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        label="פרטי בנק" value={updatedTeacher.iban} onChange={(e) => { const t = { ...updatedTeacher }; t.iban = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '100%', direction: "rtl" }}
+                        id="outlined-basic"
+                        label="מידע נוסף" value={updatedTeacher.infos} onChange={(e) => { const t = { ...updatedTeacher }; t.infos = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
+                    </Grid>
+                    <Grid justify="center" container item xs={12} direction="row">
+                      {
+                        arr.map((a, idx) => {
+                          return (<FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={selectedValue == idx + 1}
+                                onChange={(e) => { setSelectedValue(idx + 1); const t = { ...updatedTeacher }; t.koupa = arr[idx]; setUpdatedTeacher(t); }}
+                                color="primary"
+                                value={idx + 1}
+                              />
+                            }
+                            label={arr[idx]}
+                          />)
+                        })
+                      }
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Divider variant="middle" />
+                    </Grid>‏
+
+                  </Grid>
+                </Grid>
+
               </Grid>
               <Grid style={{ width: '70%' }} item xs={12}>
-                <Card style={{ marginTop: '2%', flexDirection: 'row' }} variant="outlined">
+                <Card style={{ marginTop: '2%', flexDirection: 'row', paddingTop: 10, paddingBottom: 10 }} variant="outlined">
                   <CardContent>
                     <Grid item container justify="center" xs={12}>
                       <Grid direction="column" spacing={2} item container xs={12} >
@@ -118,8 +197,8 @@ export default function EditTeacher(props: any) {
                    </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                          <Grid justify="center" container item xs={12} direction="row">
-                            <Typography style={{ marginTop: 7 }} color="primary">שכר לשעה</Typography>
+                          <Grid justify="center" container item xs={12} direction="row-reverse">
+                            <Typography style={{ marginTop: 7, marginLeft: 20 }} color="primary">שכר לשעה</Typography>
                             {payOptions.map((p, idx) => {
                               return <FormControlLabel
                                 control={
@@ -141,7 +220,7 @@ export default function EditTeacher(props: any) {
                 </Card>
               </Grid>
               <Grid style={{ width: '70%' }} item xs={12}>
-                <Card style={{ marginTop: '2%', flexDirection: 'row' }} variant="outlined">
+                <Card style={{ marginTop: '2%', flexDirection: 'row', paddingTop: 10, paddingBottom: 10 }} variant="outlined">
                   <CardContent>
                     <Grid item container justify="center" xs={12}>
                       <Grid direction="column" spacing={2} item container xs={12} >

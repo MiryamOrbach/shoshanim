@@ -87,6 +87,7 @@ function getStepContent(stepIndex: number, setFinish: Function, id: string, hand
 interface ChildDetailsProps {
   isEdit: boolean;
   id?: string;
+  scroll?: Function;
 }
 export default function ChildDetails(props: ChildDetailsProps) {
   const classes = useStyles();
@@ -110,6 +111,8 @@ export default function ChildDetails(props: ChildDetailsProps) {
   // }, [academiclServerData])
   function handleNext() {
     window.scrollTo(0, 0);
+    if (props.scroll)
+      props.scroll();
     console.log("academic", academiclServerData)
     console.log("family", familyServerData)
     if (activeStep === steps.length - 1 && finish) {
@@ -149,11 +152,9 @@ export default function ChildDetails(props: ChildDetailsProps) {
 
   const handleBack = () => {
     window.scrollTo(0, 0);
+    if (props.scroll)
+      props.scroll();
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
   };
 
   return (
@@ -192,9 +193,8 @@ export default function ChildDetails(props: ChildDetailsProps) {
                 {activeStep === steps.length ? (
                   <div>
                     <Typography className={classes.instructions}>
-                      All steps completed
+                      כל השלבים הושלמו
             </Typography>
-                    <Button onClick={handleReset}>Reset</Button>
                   </div>
                 ) : (
                     <div>
@@ -203,24 +203,25 @@ export default function ChildDetails(props: ChildDetailsProps) {
                       </Typography>
                       <Grid item spacing={2} container direction="row" xs={12} justify="center">
                         <Grid item>
-                          <Button
-                            disabled={activeStep === 0}
-                            variant="outlined"
-                            onClick={handleBack}
-                            className={classes.backButton}
-                          >
-                            Back
-              </Button>
-                        </Grid>
-                        <Grid item>
+
 
                           <Button
                             variant="contained"
                             color="primary"
                             onClick={() => ChildDataService.next$.next()}
                           >
-                            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                            {activeStep === steps.length - 1 ? "סיום" : "הבא"}
                           </Button>
+                        </Grid>
+                        <Grid item>
+                          <Button
+                            disabled={activeStep === 0}
+                            variant="outlined"
+                            onClick={handleBack}
+                            className={classes.backButton}
+                          >
+                            הקודם
+              </Button>
                         </Grid>
                       </Grid>
                     </div>

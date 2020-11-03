@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Typography, FormControl, InputLabel, Select, TextField, Button, MenuItem } from '@material-ui/core';
+import { Grid, Typography, FormControl, InputLabel, Select, TextField, Button, MenuItem, FormHelperText } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/PersonAdd';
 import BaseRequest from '../helpers/BaseRequest';
 import { useHistory } from "react-router-dom";
@@ -24,13 +24,21 @@ export default function AddTeacher(props: AddTeacherProps) {
   const [payPerHouer, setPayPerHouer] = useState<any>();
   const [bank, setBank] = useState("");
   const [info, setInfo] = useState("");
-
+  const [errors, setErrors] = useState({
+    email: false,
+    tel: false,
+    tz: false,
+    prenom: false,
+    nom: false,
+    tarif_interv: false
+  })
   const createTeacher = () => {
-
-    const newTeacher = {
+    let allValid = true;
+    let newTeacher: any;
+    const obj = {
       "titre": "",
-      "nom": firstName,
-      "prenom": lastName,
+      "nom": lastName,
+      "prenom": firstName,
       "tz": tz,
       "activite": activite,
       "tel": phone,
@@ -42,10 +50,22 @@ export default function AddTeacher(props: AddTeacherProps) {
       "tarif_interv": payoptions[payPerHouer],
       "infos": info
     }
-
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(newTeacher));
-    BaseRequest("CreateInterv", formData).then((res) => props.ok());
+    newTeacher = { ...obj };
+    let keys = Object.keys(errors);
+    let errorsHelper: any;
+    errorsHelper = { ...errors }
+    keys.forEach((k) => {
+      if (!newTeacher[k]) {
+        errorsHelper[k] = true
+        allValid = false
+      }
+    })
+    if (allValid) {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(newTeacher));
+      BaseRequest("CreateInterv", formData).then((res) => props.ok());
+    }
+    else setErrors(errorsHelper);
   }
 
   return (
@@ -65,7 +85,10 @@ export default function AddTeacher(props: AddTeacherProps) {
           id="outlined-basic"
           value={firstName}
           onChange={(e) => { setFirstName(e.target.value) }}
-          label="שם פרטי" variant="outlined" />
+          label="שם פרטי" variant="outlined"
+          error={!firstName && errors.prenom}
+          helperText={!firstName && errors.prenom ? "שם פרטי חובה" : ""}
+        />
       </Grid>
 
       <Grid item xs={12}>
@@ -74,7 +97,10 @@ export default function AddTeacher(props: AddTeacherProps) {
           label="שם משפחה"
           value={lastName}
           onChange={(e) => { setLastName(e.target.value) }}
-          variant="outlined" />
+          variant="outlined"
+          error={!lastName && errors.nom}
+          helperText={!lastName && errors.nom ? "שם משפחה חובה" : ""}
+        />
       </Grid>
       <Grid item xs={12}>
         <TextField style={{ width: '100%' }}
@@ -82,7 +108,10 @@ export default function AddTeacher(props: AddTeacherProps) {
           label="תעודת זהות"
           value={tz}
           onChange={(e) => { setTz(e.target.value) }}
-          variant="outlined" />
+          variant="outlined"
+          error={!tz && errors.tz}
+          helperText={!tz && errors.tz ? "תעודת זהות חובה" : ""}
+        />
       </Grid>
       <Grid item xs={12}>
         <TextField style={{ width: '100%' }}
@@ -113,7 +142,10 @@ export default function AddTeacher(props: AddTeacherProps) {
           label="מס' טלפון"
           value={phone}
           onChange={(e) => { setPhone(e.target.value) }}
-          type="number" variant="outlined" />
+          type="number" variant="outlined"
+          error={!phone && errors.tel}
+          helperText={!phone && errors.tel ? "מס' טלפון חובה" : ""}
+        />
       </Grid>
       <Grid item xs={12}>
         <TextField style={{ width: '100%' }}
@@ -129,20 +161,27 @@ export default function AddTeacher(props: AddTeacherProps) {
           id="outlined-basic" label="אימייל"
           value={email}
           onChange={(e) => { setEmail(e.target.value) }}
-          type="email" variant="outlined" />
+          type="email" variant="outlined"
+          error={!email && errors.email}
+          helperText={!email && errors.email ? "אימייל חובה" : ""}
+        />
       </Grid>
       <Grid item xs={12}>
         <FormControl style={{ width: '100%' }} color="primary" variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">תשלום לשעה</InputLabel>
+          <InputLabel style={{ color: errors.tarif_interv && !payPerHouer ? '#f44336' : "" }} id="demo-simple-select-outlined-label">תשלום לשעה</InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             label="תשלום לשעה"
             id="demo-simple-select-outlined"
             value={payPerHouer}
+            error={errors.tarif_interv && !payPerHouer}
+
             onChange={(e) => { setPayPerHouer(e.target.value) }}
           >
             {payoptions.map((p, idx) => { return <MenuItem value={idx}>{payoptions[idx]}</MenuItem> })}
           </Select>
+          {errors.tarif_interv && !payPerHouer && <FormHelperText error={true}>תשלום לשעה חובה</FormHelperText>}
+
         </FormControl>
       </Grid>
       <Grid item xs={12}>
@@ -161,7 +200,7 @@ export default function AddTeacher(props: AddTeacherProps) {
           variant="outlined" />
       </Grid>
 
-      <Grid spacing={1} item container alignItems="flex-start" justify="flex-start" direction="row" xs={12}>
+      <Grid item container direction="row" xs={12} style={{ direction: "ltr" }}>
         <Grid item>
           <Button
             variant="contained"
@@ -174,6 +213,7 @@ export default function AddTeacher(props: AddTeacherProps) {
         <Grid item>
           <Button
             variant="outlined"
+            style={{ marginLeft: "8px" }}
             color="primary"
             onClick={() => { props.ok() }}
           >

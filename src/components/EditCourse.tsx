@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Button, FormLabel, RadioGroup, TextField } from '@material-ui/core';
+import { Grid, Typography, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Button, FormLabel, RadioGroup, TextField, FormHelperText } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
@@ -43,6 +43,16 @@ export default function EditCourse(props: EditCourseProps) {
   const [salle, setSalle] = useState<any[]>([]);
   const [child, setChild] = useState<AutoCompleteList>({ id: props.course.id_elev, firstName: props.course.eleve_name, lastName: props.course.eleve_lastname });
   const [teacher, setTeacher] = useState<AutoCompleteList>({ id: props.course.id_interv, firstName: props.course.interv_prenom, lastName: props.course.interv_nom });
+  const [errors, setErrors] = useState({
+    id_interv: false,
+    id_elev: false,
+    date_cours: false,
+    hour_cours: false,
+    kavoua: false,
+    id_salle: false,
+    tarif_cours: false,
+    tarif_interv: false
+  })
 
 
   useEffect(() => {
@@ -112,10 +122,12 @@ export default function EditCourse(props: EditCourseProps) {
   };
 
   const editCourse = () => {
+    let allValid = true;
     var curr = new Date(selectedDate ? selectedDate : "");
     curr.setDate(curr.getDate());
     var date = curr.toISOString().substr(0, 10);
-    const updatedCourse: Course = {
+    let updateCourse: any;
+    const obj: Course = {
       id_cours: props.course.id_cours,
       id_interv: teacher?.id,
       id_elev: child?.id,
@@ -127,9 +139,22 @@ export default function EditCourse(props: EditCourseProps) {
       tarif_cours: tarifCours
       //ביטול שיעור
     }
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(updatedCourse));
-    BaseRequest("UpdateCours", formData).then((res: any) => { props.ok() })
+    updateCourse = { ...obj };
+    let keys = Object.keys(errors);
+    let errorsHelper: any;
+    errorsHelper = { ...errors }
+    keys.forEach((k) => {
+      if (!updateCourse[k]) {
+        errorsHelper[k] = true
+        allValid = false
+      }
+    })
+    if (allValid) {
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(updateCourse));
+      BaseRequest("UpdateCours", formData).then((res: any) => { props.ok() })
+    }
+    else setErrors(errorsHelper);
   }
 
   return (
@@ -149,6 +174,7 @@ export default function EditCourse(props: EditCourseProps) {
             setValue={setTeacher}
             value={course.id_interv}
             isLabelShrink={false}
+            isError={errors["id_interv"]}
           />
         </FormControl>
       </Grid>
@@ -162,6 +188,7 @@ export default function EditCourse(props: EditCourseProps) {
             value={course && course.id_elev}
             setValue={setChild}
             isLabelShrink={false}
+            isError={errors["id_elev"]}
           />
         </FormControl>
       </Grid>
@@ -169,7 +196,8 @@ export default function EditCourse(props: EditCourseProps) {
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
-            style={{ width: '100%', direction: "rtl" }}
+            PopoverProps={{ dir: 'rtl' }}
+            style={{ width: '100%' }}
             color="primary"
             inputVariant="outlined"
             margin="normal"
@@ -182,15 +210,18 @@ export default function EditCourse(props: EditCourseProps) {
               'aria-label': 'change date',
             }}
             variant="inline"
+            error={!selectedDate && errors.date_cours}
+            helperText={!selectedDate && errors.date_cours ? "תאריך חובה" : ""}
           />
         </MuiPickersUtilsProvider>
       </Grid>
       <Grid item xs={12}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardTimePicker
+            PopoverProps={{ dir: 'rtl' }}
             color="primary"
             inputVariant="outlined"
-            style={{ width: '100%', direction: "rtl" }}
+            style={{ width: '100%' }}
             variant="inline"
             margin="normal"
             id="time-picker"
@@ -200,28 +231,49 @@ export default function EditCourse(props: EditCourseProps) {
             KeyboardButtonProps={{
               'aria-label': 'change time',
             }}
+            error={!selectedDate && errors.hour_cours}
+            helperText={!selectedDate && errors.hour_cours ? "שעה חובה" : ""}
           />
         </MuiPickersUtilsProvider>
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }} className="rtl" id="outlined-basic" label="תשלום למטפל" value={tarifInterv} onChange={(e) => setTarifInterv(e.target.value)} type="number" variant="outlined" />
+        <TextField style={{ width: '100%' }}
+          className="rtl" id="outlined-basic"
+          label="תשלום למטפל" value={tarifInterv}
+          onChange={(e) => setTarifInterv(e.target.value)}
+          type="number" variant="outlined"
+          error={!tarifInterv && errors.tarif_interv}
+          helperText={!tarifInterv && errors.tarif_interv ? "תשלום למטפל חובה" : ""} />
       </Grid>
 
       <Grid item xs={12}>
-        <TextField className="rtl" style={{ width: '100%' }} id="outlined-basic" label="עלות" value={tarifCours} onChange={(e) => { setTarifCours(e.target.value) }} type="number" variant="outlined" />
+        <TextField className="rtl"
+          style={{ width: '100%' }}
+          id="outlined-basic"
+          label="עלות"
+          value={tarifCours}
+          onChange={(e) => { setTarifCours(e.target.value) }}
+          type="number"
+          variant="outlined"
+          error={!tarifCours && errors.tarif_cours}
+          helperText={!tarifCours && errors.tarif_cours ? "עלות חובה" : ""} />
       </Grid>
       <Grid item xs={12}>
         <FormControl style={{ width: '100%' }} variant="outlined" className={classes.formControl}>
-          <InputLabel id="demo-simple-select-outlined-label">כיתה</InputLabel>
+          <InputLabel style={{ color: errors.id_salle && !selectedClass ? '#f44336' : "" }} id="demo-simple-select-outlined-label">כיתה</InputLabel>
           <Select
             className="rtl"
             onChange={(e) => { setSelectedClass(e.target.value) }}
             label="כיתה"
             value={selectedClass}
+            error={errors.id_salle && !selectedClass}
+
           >
             {salle.map((s, idx) => { return <MenuItem value={s.id}>{s.kita}</MenuItem> })}
           </Select>
-        </FormControl>      </Grid>
+          {errors.id_salle && !selectedClass && <FormHelperText error={true}>כיתה שדה חובה</FormHelperText>}
+        </FormControl>
+      </Grid>
       <Grid container xs={12} justify="center">
         <Grid item>
           <FormControlLabel

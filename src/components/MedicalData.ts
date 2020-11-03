@@ -4,13 +4,13 @@ export default function MedicalData() {
     {
       type: "check",
       id: "medication",
-      lable: "האם הילד נוטל תרופות?",
+      lable: "?האם הילד נוטל תרופות",
       condition: false,
     },
     {
       type: "textArea",
       id: "medicationReasons",
-      lable: "מאלו סיבות?",
+      lable: "?מאלו סיבות",
       condition: true,
       conditionById: ["medication"],
     },
@@ -30,7 +30,7 @@ export default function MedicalData() {
     {
       type: "check",
       id: "neurologist",
-      lable: "האם הילד ראה נוירולוג?",
+      lable: "?האם הילד ראה נוירולוג",
       condition: false,
     },
     {
@@ -52,7 +52,7 @@ export default function MedicalData() {
     {
       type: "check",
       id: "epileptic",
-      lable: "האם הילד עבר התקפים אפילפטיים?",
+      lable: "?האם הילד עבר התקפים אפילפטיים",
       condition: false,
     },
     {
@@ -66,7 +66,7 @@ export default function MedicalData() {
     {
       type: "check",
       id: "tillNow",
-      lable: "עד היום?",
+      lable: "?עד היום",
       condition: true,
       conditionById: ["epileptic"],
     },
@@ -81,7 +81,7 @@ export default function MedicalData() {
     {
       type: "check",
       id: "epilepticMedication",
-      lable: "האם הילד נמצא בטיפול רפואי?תרופות?",
+      lable: "?האם הילד נמצא בטיפול רפואי?תרופות",
       condition: true,
       conditionById: ["epileptic"],
     },
@@ -101,13 +101,13 @@ export default function MedicalData() {
     {
       type: "check",
       id: "visualDisturbance",
-      lable: "האם יש לילד הפרעות ראיה?",
+      lable: "?האם יש לילד הפרעות ראיה",
       condition: false,
     },
     {
       type: "textArea",
       id: "visualDisturbanceKinds",
-      lable: "אלו?",
+      lable: "?אלו",
       condition: true,
       conditionById: ["visualDisturbance"],
     },
@@ -120,13 +120,13 @@ export default function MedicalData() {
     {
       type: "check",
       id: "hearingDisturbance",
-      lable: "האם יש לילד הפרעות שמיעה?",
+      lable: "?האם יש לילד הפרעות שמיעה",
       condition: false,
     },
     {
       type: "textArea",
       id: "hearingDisturbanceKinds",
-      lable: "אלו?",
+      lable: "?אלו",
       condition: true,
       conditionById: ["hearingDisturbance"],
     },
@@ -139,7 +139,7 @@ export default function MedicalData() {
     {
       type: "check",
       id: "ENTProblems",
-      lable: "האם היו לילד בעיות אף אוזן גרון?",
+      lable: "?האם היו לילד בעיות אף אוזן גרון",
       condition: false,
     },
     {
@@ -153,7 +153,7 @@ export default function MedicalData() {
     {
       type: "textArea",
       id: "ENTProblemsKinds",
-      lable: "אלו?",
+      lable: "?אלו",
       condition: true,
       conditionById: ["ENTProblems"],
     },
@@ -172,7 +172,7 @@ export default function MedicalData() {
     {
       type: "radio",
       id: "troubleSleeping",
-      lable: "האם הילד מתקשה לישון?",
+      lable: "?האם הילד מתקשה לישון",
       childrenLables: [
         { id: "troubleSleepingYes", lable: "כן" },
         { id: "troubleSleepingSometimes", lable: "לפעמים" },
@@ -200,7 +200,7 @@ export default function MedicalData() {
     {
       type: "radio",
       id: "escortSleeping",
-      lable: "האם הילד צריך ליווי לשינה?",
+      lable: "?האם הילד צריך ליווי לשינה",
       childrenLables: [
         { id: "escortSleepingYes", lable: "כן" },
         { id: "escortSleepingSometimes", lable: "לפעמים" },
@@ -217,7 +217,7 @@ export default function MedicalData() {
     {
       type: "radio",
       id: "sleepWithParents",
-      lable: "האם הילד ישן עם הוריו?",
+      lable: "?האם הילד ישן עם הוריו",
       childrenLables: [
         { id: "sleepWithParentsYes", lable: "כן" },
         { id: "sleepWithParentsSometimes", lable: "לפעמים" },
@@ -234,7 +234,7 @@ export default function MedicalData() {
     {
       type: "radio",
       id: "sleepWithBrothers",
-      lable: "האם הילד ישן עם אחים/אחיות בחדר??",
+      lable: "?האם הילד ישן עם אחים/אחיות בחדר",
       childrenLables: [
         { id: "sleepWithBrothersYes", lable: "כן" },
         { id: "sleepWithBrothersSometimes", lable: "לפעמים" },
@@ -273,7 +273,7 @@ export default function MedicalData() {
     {
       type: "check",
       id: "wakeUpMood",
-      lable: "האם הילד נמצא במצב רוח טוב כשהוא קם?",
+      lable: "?האם הילד נמצא במצב רוח טוב כשהוא קם",
       condition: false,
     },
     {
@@ -299,13 +299,13 @@ export default function MedicalData() {
     {
       type: "check",
       id: "eatingDisorder",
-      lable: "האם לילד יש הפרעות באכילה?",
+      lable: "?האם לילד יש הפרעות באכילה",
       condition: false,
     },
     {
       type: "textArea",
       id: "eatingDisorderKinds",
-      lable: "אלו?",
+      lable: "?אלו",
       condition: true,
       conditionById: ["eatingDisorder"],
     },

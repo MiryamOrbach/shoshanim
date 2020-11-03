@@ -179,7 +179,7 @@ export default function PersonalData() {
     {
       type: "check",
       id: "hmoRequest",
-      lable: "האם הוגשה בקשה לקופת חולים בקשר לטיפולים?",
+      lable: "?האם הוגשה בקשה לקופת חולים בקשר לטיפולים",
       condition: false,
     },
     {
@@ -195,7 +195,7 @@ export default function PersonalData() {
     {
       type: "check",
       id: "requestAnswer",
-      lable: "האם קיבלתם תשובה?",
+      lable: "?האם קיבלתם תשובה",
       condition: true,
       conditionById: ["hmoRequest"],
     },

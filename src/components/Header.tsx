@@ -18,7 +18,8 @@ const useStyles = makeStyles({
     position: "relative",
     backgroundColor: "white",
     color: "#214078",
-    width: "100%"
+    width: "100%",
+    boxShadow: "none"
   },
   tabs: {
     // width: "50%",
@@ -58,7 +59,7 @@ export default function Header(props: any) {
   return (
     <>
       {userName ? (
-        <Paper style={{ width: "100%" }}>
+        <Paper style={{ width: "100%", boxShadow: "none" }}>
           <BrowserRouter>
             <AppBar className={classes.appBar}>
               <Toolbar>
@@ -91,6 +92,7 @@ export default function Header(props: any) {
                         centered
                         className={classes.tabs}
                       >
+                        <Tab className={classes.tab} label="כספים" />
                         <Tab
                           href="/course"
                           className={classes.tab}
@@ -106,7 +108,6 @@ export default function Header(props: any) {
                           href="/students"
                           label="ילדים"
                         />
-                        <Tab className={classes.tab} label="כספים" />
                       </Tabs>
                     </Grid>
                   }
