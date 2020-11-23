@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     marginTop: 3
   },
+  txt: {
+    width: '100%',
+    direction: 'ltr'
+  },
   icon: {
     marginTop: 2,
   },
@@ -45,7 +49,7 @@ export default function AddComment(props: AddCommentProps) {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <TextField className='maxWidth' onChange={(e) => { setComment(e.target.value) }} variant="outlined" value={comment} multiline label="הערה"></TextField>
+        <TextField className={classes.txt} onChange={(e) => { setComment(e.target.value) }} variant="outlined" value={comment} multiline label="הערה"></TextField>
       </Grid>
       <Grid spacing={1} item container alignItems="flex-start" justify="flex-start" direction="row" xs={12}>
         <Grid item>

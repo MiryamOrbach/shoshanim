@@ -3,6 +3,19 @@ import { Grid, Typography, FormControl, InputLabel, Select, TextField, Button, M
 import PeopleIcon from '@material-ui/icons/PersonAdd';
 import BaseRequest from '../helpers/BaseRequest';
 import { useHistory } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  direction: {
+    direction: 'ltr'
+  },
+  icon: {
+    marginTop: 2
+  },
+  control: {
+    width: '100%'
+  }
+});
 
 
 interface AddTeacherProps {
@@ -10,6 +23,7 @@ interface AddTeacherProps {
 }
 
 export default function AddTeacher(props: AddTeacherProps) {
+  const classes = useStyles();
   const history = useHistory();
   const payoptions = ["180", "300"];
   const [firstName, setFirstName] = useState("");
@@ -69,7 +83,7 @@ export default function AddTeacher(props: AddTeacherProps) {
   }
 
   return (
-    <Grid spacing={3} direction="column" container style={{ direction: "rtl" }}>
+    <Grid spacing={3} direction="column" container className={classes.direction}>
       <Grid justify="center" container direction="row-reverse" spacing={3} item xs={12} >
         <Grid item>
           <Typography color="primary" variant="h5">
@@ -77,11 +91,11 @@ export default function AddTeacher(props: AddTeacherProps) {
         </Typography>
         </Grid>
         <Grid item>
-          <PeopleIcon color="primary" style={{ marginTop: 2 }} />
+          <PeopleIcon color="primary" className={classes.icon} />
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic"
           value={firstName}
           onChange={(e) => { setFirstName(e.target.value) }}
@@ -92,7 +106,7 @@ export default function AddTeacher(props: AddTeacherProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic"
           label="שם משפחה"
           value={lastName}
@@ -103,7 +117,7 @@ export default function AddTeacher(props: AddTeacherProps) {
         />
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic"
           label="תעודת זהות"
           value={tz}
@@ -114,7 +128,7 @@ export default function AddTeacher(props: AddTeacherProps) {
         />
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic"
           label="תחום"
           value={activite}
@@ -122,7 +136,7 @@ export default function AddTeacher(props: AddTeacherProps) {
           variant="outlined" />
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic"
           label="קופת חולים"
           value={kupa}
@@ -130,14 +144,14 @@ export default function AddTeacher(props: AddTeacherProps) {
           variant="outlined" />
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic"
           value={address}
           onChange={(e) => { setAddress(e.target.value) }}
           label="כתובת" variant="outlined" />
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic"
           label="מס' טלפון"
           value={phone}
@@ -148,7 +162,7 @@ export default function AddTeacher(props: AddTeacherProps) {
         />
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic"
           label="טלפון 2"
           value={phone2}
@@ -157,7 +171,7 @@ export default function AddTeacher(props: AddTeacherProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic" label="אימייל"
           value={email}
           onChange={(e) => { setEmail(e.target.value) }}
@@ -167,7 +181,7 @@ export default function AddTeacher(props: AddTeacherProps) {
         />
       </Grid>
       <Grid item xs={12}>
-        <FormControl style={{ width: '100%' }} color="primary" variant="outlined">
+        <FormControl className='maxWidth' color="primary" variant="outlined">
           <InputLabel style={{ color: errors.tarif_interv && !payPerHouer ? '#f44336' : "" }} id="demo-simple-select-outlined-label">תשלום לשעה</InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -185,14 +199,14 @@ export default function AddTeacher(props: AddTeacherProps) {
         </FormControl>
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic" label="פרטי חשבון"
           value={bank}
           onChange={(e) => { setBank(e.target.value) }}
           variant="outlined" />
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
+        <TextField className='maxWidth'
           id="outlined-basic" label="מידע נוסף"
           value={info}
           multiline

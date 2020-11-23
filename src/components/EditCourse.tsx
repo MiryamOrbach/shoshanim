@@ -3,10 +3,7 @@ import { Grid, Typography, FormControl, InputLabel, Select, MenuItem, FormContro
 import { MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
-import Radio from '@material-ui/core/Radio';
 import Course from '../models/Course';
-import Teacher from '../models/Teacher';
-import Student from '../models/Student';
 import BaseRequest from '../helpers/BaseRequest';
 import { AutoCompleteList } from './AddCourse';
 import CustomAutoComplete from './CustomAutoComplete';
@@ -14,10 +11,18 @@ import CustomAutoComplete from './CustomAutoComplete';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
+    width: '100%'
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  txt: {
+    width: '100%',
+    direction: 'ltr'
+  },
+  width: {
+    width: '100%'
+  }
 }));
 
 interface EditCourseProps {
@@ -60,10 +65,6 @@ export default function EditCourse(props: EditCourseProps) {
     getStudents();
     getClasses();
   }, []);
-  // useEffect(() => {
-  //   salle.forEach(s => { if (s.id == props.course.id_salle) setSelectedClass(s); })
-
-  // }, [salle])
 
   const getStudents = () => {
     BaseRequest("getStudent")
@@ -167,7 +168,7 @@ export default function EditCourse(props: EditCourseProps) {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <FormControl style={{ width: '100%' }} color="primary" variant="outlined" className={classes.formControl}>
+        <FormControl color="primary" variant="outlined" className={classes.formControl}>
           <CustomAutoComplete
             label="שם המטפל"
             data={teachers}
@@ -180,7 +181,7 @@ export default function EditCourse(props: EditCourseProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <FormControl style={{ width: '100%' }} color="primary" variant="outlined" className={classes.formControl}>
+        <FormControl color="primary" variant="outlined" className={classes.formControl}>
 
           <CustomAutoComplete
             label="שם הילד"
@@ -197,7 +198,7 @@ export default function EditCourse(props: EditCourseProps) {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             PopoverProps={{ dir: 'rtl' }}
-            style={{ width: '100%' }}
+            className={classes.width}
             color="primary"
             inputVariant="outlined"
             margin="normal"
@@ -221,7 +222,7 @@ export default function EditCourse(props: EditCourseProps) {
             PopoverProps={{ dir: 'rtl' }}
             color="primary"
             inputVariant="outlined"
-            style={{ width: '100%' }}
+            className={classes.width}
             variant="inline"
             margin="normal"
             id="time-picker"
@@ -237,8 +238,8 @@ export default function EditCourse(props: EditCourseProps) {
         </MuiPickersUtilsProvider>
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }}
-          className="rtl" id="outlined-basic"
+        <TextField className={classes.txt}
+          id="outlined-basic"
           label="תשלום למטפל" value={tarifInterv}
           onChange={(e) => setTarifInterv(e.target.value)}
           type="number" variant="outlined"
@@ -247,8 +248,8 @@ export default function EditCourse(props: EditCourseProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <TextField className="rtl"
-          style={{ width: '100%' }}
+        <TextField
+          className={classes.txt}
           id="outlined-basic"
           label="עלות"
           value={tarifCours}
@@ -259,7 +260,7 @@ export default function EditCourse(props: EditCourseProps) {
           helperText={!tarifCours && errors.tarif_cours ? "עלות חובה" : ""} />
       </Grid>
       <Grid item xs={12}>
-        <FormControl style={{ width: '100%' }} variant="outlined" className={classes.formControl}>
+        <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel style={{ color: errors.id_salle && !selectedClass ? '#f44336' : "" }} id="demo-simple-select-outlined-label">כיתה</InputLabel>
           <Select
             className="rtl"

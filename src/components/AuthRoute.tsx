@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Login from "./Login.comonent";
 const AuthRoute = (props: any) => {
   let token = null;
@@ -9,7 +9,6 @@ const AuthRoute = (props: any) => {
   return !token ? (
     <Route path="/login" component={Login} />
   ) : (
-    //   else if (type === "private" && !isAuthUser) return <Redirect to="/" />;
 
     <Route {...props} />
   );

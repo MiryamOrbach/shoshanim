@@ -17,6 +17,22 @@ import { BorderColor } from '@material-ui/icons';
 const useStyles = makeStyles({
   select: {
     border: '1px solid red'
+  },
+  icon: {
+    marginTop: 2
+  },
+  erroeText: {
+    marginRight: 12
+  },
+  datePicker: {
+    width: '100%',
+    zIndex: 0
+  },
+  grid: {
+    direction: "rtl"
+  },
+  okButton: {
+    marginRight: "8px"
   }
 
 });
@@ -39,7 +55,6 @@ export default function AddMeeting(props: MeetingProps) {
   })
   useEffect(() => {
     BaseRequest("getIntervenant").then((res: any) => {
-      console.log("ijijij", res)
       let arr: any[] = [];
       res.data.forEach((item: any) => {
         arr.push({ label: `${item.nom} ${item.prenom}`, value: item })
@@ -63,28 +78,8 @@ export default function AddMeeting(props: MeetingProps) {
       '&:focus': { borderColor: '#214078' },
       '&:unFocus': { borderColor: '#214078' },
       borderColor: errors.intervenant_list && !selected.length ? 'red' : 'rgba(0, 0, 0, 0.23)'
-      // ...base, outlined: state.isFocus ? 0 : '', minHeight: 53, paddingButtom: 0, borderColor: errors.intervenant_list && !selected.length ? 'red' : 'rgba(0, 0, 0, 0.23)'
     })
   }
-  // const customStyles = {
-  //   control: (base:any, state:any) => ({
-  //     ...base,
-  //     minHeight:53,
-  //     '&:hover': { borderColor: 'black' },         
-  //     '&:focus': { borderColor: '#214078' },          
-  //     '&:unFocus': { borderColor: '#214078' },          
-  //   })
-  // }‏
-
-  // const customStyles = {
-  //   control: (base: any, state: any) => ({
-  //     ...base,
-  //     minHeight: 53,
-  //     color: 'red'
-
-  //     // You can also use state.isFocused to conditionally style based on the focus state
-  //   })
-  // }; ‏
 
   const createReunion = () => {
     let allValid = true;
@@ -116,7 +111,6 @@ export default function AddMeeting(props: MeetingProps) {
         allValid = false
       }
     })
-    console.log("ndndndnd", meeting)
     if (allValid) {
       const formdata = new FormData();
       formdata.append("data", JSON.stringify(meeting));
@@ -136,7 +130,7 @@ export default function AddMeeting(props: MeetingProps) {
         </Typography>
           </Grid>
           <Grid item>
-            <PeopleIcon style={{ marginTop: 2 }} color="primary" />
+            <PeopleIcon className={classes.icon} color="primary" />
           </Grid>
         </Grid>
         <Grid item xs={12}>
@@ -166,9 +160,7 @@ export default function AddMeeting(props: MeetingProps) {
           />
           {
             errors.intervenant_list && !selected.length &&
-            <FormHelperText style={{ marginRight: 12 }} error={true}>מוזמנים חובה</FormHelperText>}
-          {/* {errors.intervenant_list && !selected.length && <FormHelperText error={true}>מוזמנים חובה</FormHelperText>} */}
-
+            <FormHelperText className={classes.erroeText} error={true}>מוזמנים חובה</FormHelperText>}
         </Grid>
         <Grid item xs={12}>
 
@@ -178,7 +170,6 @@ export default function AddMeeting(props: MeetingProps) {
               color="primary"
               style={{ width: '100%', zIndex: 0 }}
               inputVariant="outlined"
-              // id="date-picker-dialog-outlined"
               label="תאריך"
               format="MM/dd/yyyy"
               value={selectedDate}
@@ -199,7 +190,7 @@ export default function AddMeeting(props: MeetingProps) {
               PopoverProps={{ dir: 'rtl' }}
               color="primary"
               inputVariant="outlined"
-              style={{ width: '100%', zIndex: 0 }}
+              className={classes.datePicker}
               variant="inline"
               id="time-picker"
               label="שעה"
@@ -214,12 +205,12 @@ export default function AddMeeting(props: MeetingProps) {
           </MuiPickersUtilsProvider>
         </Grid>
         <Grid item xs={12}>
-          <TextField style={{ width: '100%', zIndex: 0 }} id="outlined-basic"
+          <TextField className={classes.datePicker} id="outlined-basic"
             onChange={(e) => { setSubject(e.target.value) }} label="נושא"
             variant="outlined" error={!subject && errors.sujet}
             helperText={!selectedDate && errors.sujet ? "נושא חובה" : ""} />
         </Grid>
-        <Grid item container style={{ direction: "ltr" }} direction="row" xs={12}>
+        <Grid item container className={classes.grid} direction="row" xs={12}>
           <Grid item>
             <Button
               variant="contained"
@@ -234,7 +225,7 @@ export default function AddMeeting(props: MeetingProps) {
               variant="outlined"
               color="primary"
               onClick={() => { props.ok() }}
-              style={{ marginLeft: "8px" }}
+              className={classes.okButton}
             >
               ביטול
           </Button>

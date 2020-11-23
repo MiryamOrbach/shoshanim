@@ -280,7 +280,7 @@ export default function CourseList() {
             <Grid item xs={3} className={classes.grid}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
-                PopoverProps={{ dir: 'rtl' }}
+                  PopoverProps={{ dir: 'rtl' }}
                   color="primary"
                   inputVariant="outlined"
                   id="date-picker-dialog-outlined"
