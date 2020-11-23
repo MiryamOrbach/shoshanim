@@ -1,4 +1,4 @@
-import { Card, CardContent, Dialog, DialogContent, Grid } from '@material-ui/core';
+import { Card, CardContent, Dialog, DialogContent, Grid, makeStyles } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react'
 import BaseRequest from '../helpers/BaseRequest'
@@ -12,16 +12,25 @@ export interface PastLessonsData {
     item: any;
 }
 
+const useStyles = makeStyles((theme) => ({
+    text: {
+        color: '#214078',
+        textDecoration: "underline"
+    },
+    content: {
+        width: 500, height: 210
+    },
+}));
+
+
 
 export default function PastLessons() {
     const [rows, setRows] = useState<PastLessonsData[]>([]);
     const [showAddComment, setShowAddComment] = useState(false);
     const [course, setCourse] = useState<any>();
-
-
+    const classes = useStyles();
     useEffect(() => {
         getPastCours();
-
     }, [])
 
     const getPastCours = () => {
@@ -29,11 +38,8 @@ export default function PastLessons() {
         const json = { option: "past", id_interv: localStorage.getItem("id") || "" }
         formData.append("data", JSON.stringify(json))
         BaseRequest("getCours", formData).then((res: { data: any[] }) => {
-            console.log(res);
-            // let i: AutoCompleteList[] = [];
             let teacherData: PastLessonsData[] = [];
             res.data.forEach((item) => {
-                //   i.push({ id: item.id_elev, value: `${item.prenom} ${item.nom}` });
                 teacherData.push(createData(`${item.student_firstname} ${item.student_lastname}`, item.date_cours, item));
             })
             setRows(teacherData)
@@ -78,9 +84,7 @@ export default function PastLessons() {
     };
     return (
         <>
-
             <Grid
-                // spacing={2}
                 direction="column"
                 container
                 justify="flex-start"
@@ -93,7 +97,7 @@ export default function PastLessons() {
                     container
                 >
                     <Grid item xs={3}>
-                        <p style={{ textDecoration: "underline" }} className="primary">השיעורים שעברו</p>
+                        <p className={classes.text}>השיעורים שעברו</p>
                     </Grid>
                 </Grid> <Grid item xs={12}>
                     <EnhancedTable headCells={headCells} rows={rows} />
@@ -106,7 +110,7 @@ export default function PastLessons() {
                 }}
                 open={showAddComment}
             >
-                <DialogContent style={{ width: 500, height: "210" }}>
+                <DialogContent className={classes.content}>
                     <AddComment ok={CloseDialog} course={course} />
                 </DialogContent>
             </Dialog>

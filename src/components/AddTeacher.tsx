@@ -178,7 +178,7 @@ export default function AddTeacher(props: AddTeacherProps) {
 
             onChange={(e) => { setPayPerHouer(e.target.value) }}
           >
-            {payoptions.map((p, idx) => { return <MenuItem value={idx}>{payoptions[idx]}</MenuItem> })}
+            {payoptions.map((p, idx) => { return <MenuItem key={idx} value={idx}>{payoptions[idx]}</MenuItem> })}
           </Select>
           {errors.tarif_interv && !payPerHouer && <FormHelperText error={true}>תשלום לשעה חובה</FormHelperText>}
 

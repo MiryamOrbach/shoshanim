@@ -54,11 +54,28 @@ export default function AddMeeting(props: MeetingProps) {
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
+
   const customStyles = {
     control: (base: any, state: any) => ({
-      ...base, outlined: state.isFocus ? 0 : '', minHeight: 53, paddingButtom: 0, borderColor: errors.intervenant_list && !selected.length ? 'red' : 'rgba(0, 0, 0, 0.23)'
+      ...base, minHeight: 53,
+      paddingButtom: 0,
+      '&:hover': { borderColor: 'black' },
+      '&:focus': { borderColor: '#214078' },
+      '&:unFocus': { borderColor: '#214078' },
+      borderColor: errors.intervenant_list && !selected.length ? 'red' : 'rgba(0, 0, 0, 0.23)'
+      // ...base, outlined: state.isFocus ? 0 : '', minHeight: 53, paddingButtom: 0, borderColor: errors.intervenant_list && !selected.length ? 'red' : 'rgba(0, 0, 0, 0.23)'
     })
   }
+  // const customStyles = {
+  //   control: (base:any, state:any) => ({
+  //     ...base,
+  //     minHeight:53,
+  //     '&:hover': { borderColor: 'black' },         
+  //     '&:focus': { borderColor: '#214078' },          
+  //     '&:unFocus': { borderColor: '#214078' },          
+  //   })
+  // }‏
+
   // const customStyles = {
   //   control: (base: any, state: any) => ({
   //     ...base,

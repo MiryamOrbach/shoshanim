@@ -8,6 +8,7 @@ import {
   Card,
   CardHeader,
   Typography,
+  makeStyles,
 } from "@material-ui/core";
 import { it } from "date-fns/locale";
 import React, { EventHandler, useState, useEffect, useRef } from "react";
@@ -34,9 +35,39 @@ interface GenerateControlsProps {
   handleNext: Function;
   setFinish?: Function;
 }
+const useStyles = makeStyles((theme) => ({
+  txt: {
+    width: "100%", direction: "ltr"
+  },
+  check: {
+    padding: 0
+  },
+  checkContent: {
+    padding: '0 !important', height: 55
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    marginLeft: 22
+  },
+  radio: {
+    flexDirection: "row"
+  },
+  formControlLabel: {
+    color: 'black'
+  },
+  gridContainer: {
+    margin: '2%', width: '98%'
+  },
+  typography: {
+    marginBottom: 8
+  }
+
+
+}));
+
 
 export default function GenerateControls(props: GenerateControlsProps) {
-
+  const classes = useStyles();
   const [arr, setArr] = useState(props.arr);
 
   let arrHelper = [...props.serverData];
@@ -56,7 +87,6 @@ export default function GenerateControls(props: GenerateControlsProps) {
     helpArr[index].value = e.target.value;
     if (helpArr[index].isRequired && helpArr[index].isError && item.value)
       helpArr[index].isError = false;
-    // helpArr[index]
     setArr(helpArr);
   };
   const handleChange = (item: ChildData) => {
@@ -95,7 +125,7 @@ export default function GenerateControls(props: GenerateControlsProps) {
         return (
           <Grid key={idx} item xs={12}>
             <TextField
-              style={{ width: "100%", direction: "rtl" }}
+              className={classes.txt}
               variant="outlined"
               placeholder=""
               label={item.lable}
@@ -110,9 +140,10 @@ export default function GenerateControls(props: GenerateControlsProps) {
         );
       case "textArea":
         return (
-          <Grid key={idx} item xs={12} style={{ textAlign: "right" }}>
+          <Grid key={idx} item xs={12}
+          >
             <TextField
-              style={{ width: "100%", textAlign: "right" }}
+              className={classes.txt}
               variant="outlined"
               placeholder=""
               label={item.lable}
@@ -126,8 +157,12 @@ export default function GenerateControls(props: GenerateControlsProps) {
       case "check":
         return (
           <Grid key={idx} item xs={12}>
-            <Card style={{ padding: 0 }} variant="outlined">
-              <CardContent style={{ padding: 0, height: 55 }}>
+            <Card
+              className={classes.check}
+              variant="outlined">
+              <CardContent
+                className={classes.checkContent}
+              >
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -145,8 +180,12 @@ export default function GenerateControls(props: GenerateControlsProps) {
       case "radio":
         return (
           <Grid key={idx} item xs={12}>
-            <Card style={{ padding: 0 }} variant="outlined">
-              <CardContent style={{ padding: 0, minHeight: 55 }}>
+            <Card
+              className={classes.check}
+              variant="outlined">
+              <CardContent
+                className={classes.checkContent}
+              >
 
                 <FormControlLabel
                   control={
@@ -154,7 +193,7 @@ export default function GenerateControls(props: GenerateControlsProps) {
                       <RadioGroup
                         aria-label="gender"
                         name="gender1"
-                        style={{ flexDirection: 'row', marginRight: 22 }}
+                        className={classes.radioGroup}
                         value={item.value !== undefined ? item.value : -1}
                         onChange={(e) => {
                           handleRadioChange(e, item);
@@ -165,9 +204,11 @@ export default function GenerateControls(props: GenerateControlsProps) {
                             <FormControlLabel
                               key={idx}
                               value={idx}
-                              control={<Radio style={{ flexDirection: "row" }} />}
+                              control={<Radio
+                                className={classes.radio}
+                              />}
                               label={child.lable}
-                              style={{ color: 'black' }}
+                              className={classes.formControlLabel}
                             />
                           );
                         })}
@@ -203,10 +244,14 @@ export default function GenerateControls(props: GenerateControlsProps) {
   };
   return (
     <>
-      <Grid justify="center" alignItems="center" container style={{ margin: '2%', width: '98%' }}>
+      <Grid justify="center" alignItems="center" container
+        className={classes.gridContainer}
+      >
         <Grid item xs={12}>
           <Grid item xs={12}>
-            <Typography variant="h5" style={{ marginBottom: 8 }} color="primary">{props.title}</Typography>
+            <Typography variant="h5"
+              className={classes.typography}
+              color="primary">{props.title}</Typography>
           </Grid>
           <Grid
             direction="row-reverse"

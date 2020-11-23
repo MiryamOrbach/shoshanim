@@ -7,15 +7,15 @@ interface PrivateRouteProps {
   path: string;
 }
 export default function PrivateRoute(props: PrivateRouteProps) {
-  const arr = ["/course", "/teachers", "/students"];
+  const arr = ["/money", "/course", "/teachers", "/students"];
   return (
     <>
       <Header index={arr.indexOf(props.path) || 0} />
       {localStorage.getItem("token") ? (
         <Route path={props.path} component={props.component} />
       ) : (
-        <Redirect to="/login" />
-      )}
+          <Redirect to="/login" />
+        )}
     </>
   );
 }

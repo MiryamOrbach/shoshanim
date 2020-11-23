@@ -20,7 +20,6 @@ export default function AcademicFile(props: FileProps) {
       formData.append("student", props.id || "")
       BaseRequest("getStudent", formData).then((res) => {
         console.log(res.data);
-        // const json=
         let arrS: any[];
         let d = res.data[0].academic_data.replace(/'/g, '"');
         arrS = [...JSON.parse(d)];

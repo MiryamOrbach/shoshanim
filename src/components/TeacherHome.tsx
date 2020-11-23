@@ -18,16 +18,12 @@ const useStyles = makeStyles((theme) => ({
 export default function TeacherHome() {
     const classes = useStyles();
     return (<>
-
-
         <Card className={classes.card}>
             <Grid
                 spacing={2}
                 direction="column"
                 container
             >
-
-
                 <Grid item xs={12}>
                     <PastLessons />
                 </Grid>
@@ -36,10 +32,6 @@ export default function TeacherHome() {
                 </Grid>
             </Grid>
         </Card>
-
-
-
-
     </>
     )
 }

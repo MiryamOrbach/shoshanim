@@ -59,6 +59,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     width: 500,
   },
+  card: {
+    width: "70%",
+    margin: "4% 15%"
+  },
+  typography: {
+    marginTop: 15, marginBottom: 15
+  },
+
+  content: {
+    minHeight: "545px",
+    maxHeight: "545px",
+    overflowY: "auto"
+  }
 }));
 
 interface Child {
@@ -89,19 +102,12 @@ export default function ViewChild(props: any) {
   };
 
   return (
-    <Card style={{
-      width: "70%",
-
-      margin: "4% 15%"
-    }}>
-      <CardContent id="card" style={{
-        minHeight: "545px",
-        maxHeight: "545px", overflowY: "auto"
-      }}>
+    <Card className={classes.card}>
+      <CardContent id="card" className={classes.content}>
         <Grid spacing={2} container>
           <Grid justify="center" item xs={12}>
             <Typography
-              style={{ marginTop: 15, marginBottom: 15 }}
+              className={classes.typography}
               color="primary"
               variant="h5"
             >
@@ -110,7 +116,7 @@ export default function ViewChild(props: any) {
           </Grid>
           <Grid item xs={12}>
             <Tabs
-              style={{ direction: "rtl" }}
+              className='rtl'
               value={value}
               onChange={handleChange}
               indicatorColor="primary"

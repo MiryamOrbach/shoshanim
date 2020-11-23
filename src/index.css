@@ -17,6 +17,9 @@ code {
 .rtl {
   direction: rtl;
 }
+.maxWidth {
+  width: 100%;
+}
 /* :root {
   --main-color: #214078;
   --secondary: #14738c;

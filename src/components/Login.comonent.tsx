@@ -11,6 +11,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Logo from '../assets/ShoshanimSLCLogo.png';
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import BaseRequest from '../helpers/BaseRequest';
@@ -33,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  img: {
+    height: 50, width: 50, float: "right", cursor: 'pointer'
+  }
 }));
 
 export default function SignIn() {
@@ -65,7 +69,10 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>{/* <LockOutlinedIcon /> */}</Avatar>
+        <img
+          className={classes.img}
+          src={Logo}
+        />
         <Typography component="h1" variant="h5">
           כניסה
         </Typography>

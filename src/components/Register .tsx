@@ -15,5 +15,5 @@ import ChildDetails from "./ChildDetails";
 
 
 export default function Register() {
-   return <ChildDetails isEdit={false}/>
+   return <ChildDetails isEdit={false} />
 }

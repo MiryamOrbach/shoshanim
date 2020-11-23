@@ -14,6 +14,7 @@ import ChildDataService from "./ChildDataService";
 import { ServerData } from "./PersonalData";
 import { Grid, Card, CardContent } from "@material-ui/core";
 import Logo from "../assets/ShoshanimSLCLogo.png";
+import { useHistory } from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -98,7 +99,7 @@ export default function ChildDetails(props: ChildDetailsProps) {
   const [academiclServerData, setAcademicServerData] = useState<ServerData[]>([])
   const [finish, setFinish] = useState(false);
   const steps = getSteps();
-
+  const history = useHistory();
   useEffect(() => {
     if (finish)
       handleNext();
@@ -140,6 +141,8 @@ export default function ChildDetails(props: ChildDetailsProps) {
         .then((res) => {
           console.log(res);
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          if (props.isEdit)
+            history.push('/students');
         })
         .catch((e) => {
           console.log(e);

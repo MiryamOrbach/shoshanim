@@ -64,7 +64,6 @@ export interface HeadCell {
 interface EnhancedTableProps {
   classes: ReturnType<typeof useStyles>;
   headCells: HeadCell[];
-  // numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void;
   order: Order;
   orderBy?: string;
@@ -124,9 +123,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
     },
     paper: {
-      // width: "90%",
       direction: "ltr",
-      // margin: "2% 5%",
     },
     header: {
       fontWeight: "bold"
@@ -216,11 +213,8 @@ export default function EnhancedTable(props: TableProps) {
     rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
   let cells = props.headCells;
   return (
-    // <div className={classes.root}>
     <Paper className={classes.paper}>
       <TableContainer
-      // style={{ direction: "rtl" }}
-      // className={classes.tableContainer}
       >
         <Table
           className={classes.table}
@@ -241,12 +235,11 @@ export default function EnhancedTable(props: TableProps) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row: any, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
-
                 return (
-                  <TableRow hover key={row.name}>
+                  <TableRow hover key={index}>
                     {cells.map((item, idx) => {
                       return (
-                        <TableCell>{renderComponent(row, item)}</TableCell>
+                        <TableCell key={idx}>{renderComponent(row, item)}</TableCell>
                       );
                     })}
                   </TableRow>

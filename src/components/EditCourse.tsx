@@ -269,7 +269,7 @@ export default function EditCourse(props: EditCourseProps) {
             error={errors.id_salle && !selectedClass}
 
           >
-            {salle.map((s, idx) => { return <MenuItem value={s.id}>{s.kita}</MenuItem> })}
+            {salle.map((s, idx) => { return <MenuItem key={idx} value={s.id}>{s.kita}</MenuItem> })}
           </Select>
           {errors.id_salle && !selectedClass && <FormHelperText error={true}>כיתה שדה חובה</FormHelperText>}
         </FormControl>

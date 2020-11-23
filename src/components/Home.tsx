@@ -2,18 +2,32 @@
 
 import React, { useState, Fragment, useEffect } from "react";
 import Header from "./Header";
-import "./Home.css";
-import { Button, Dialog, DialogContent } from "@material-ui/core";
+import { Button, Dialog, DialogContent, Grid, makeStyles } from "@material-ui/core";
 import AddCourse from "./AddCourse";
 import AddMeeting from "./AddMeeting";
 import BaseRequest from "../helpers/BaseRequest";
 import { useHistory } from "react-router";
+import { Alert } from "@material-ui/lab";
+const useStyles = makeStyles((theme) => ({
+  notefication: {
+    cursor: 'pointer'
+  },
+  coursContent: {
+    width: 500, height: 600
+  },
+  content: {
+    width: 500, height: 420
+  }
+
+}));
 
 export default function Home() {
   const [selectedDate, handleDateChange] = useState(new Date());
   const [showAssCourse, setShowAddCourse] = useState(false);
   const [showAddMeeting, setShowAddMeeting] = useState(false);
   const [isNew, setIsNew] = useState(false)
+  const classes = useStyles();
+
   const history = useHistory();
   useEffect(() => {
     BaseRequest("getNewstudent").then((res) => {
@@ -39,44 +53,50 @@ export default function Home() {
         }}
         open={showAddMeeting}
       >
-        <DialogContent style={{ width: 500, height: 420 }}>
+        <DialogContent className={classes.content} >
           <AddMeeting ok={closeMeeting} />
         </DialogContent>
       </Dialog>
+      <Grid container className='rtl' justify="flex-start" direction='column'>
+        {
+          isNew &&
+          <Grid item xs={3}>
+            {/* <div className="notafication" > */}
+            <Alert severity="success" variant="filled" className={classes.notefication} onClick={() => history.push("/students")}>הגיע טופס הרשמה חדש! אני רוצה לראות אותו</Alert>
 
-      {
-        isNew &&
-        <div className="notafication" onClick={() => history.push("/students")}>
-          <p>הגיע טופס הרשמה חדש! אני רוצה לראות אותו</p>
-        </div>
-      }
-      <div className="buttons">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setShowAddCourse(true);
-          }}
-        >
-          הוספת שיעור
+            {/* </div> */}
+          </Grid>
+        }
+        <Grid item xs={12}>
+          <div className="buttons">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setShowAddCourse(true);
+              }}
+            >
+              הוספת שיעור
         </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setShowAddMeeting(true);
-          }}
-        >
-          הוספת אסיפה
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setShowAddMeeting(true);
+              }}
+            >
+              הוספת אסיפה
         </Button>
-      </div>
+          </div>
+        </Grid>
+      </Grid>
       <Dialog
         onClose={() => {
           setShowAddCourse(false);
         }}
         open={showAssCourse}
       >
-        <DialogContent style={{ width: 500, height: 600 }}>
+        <DialogContent className={classes.coursContent} >
           <AddCourse ok={closeCourse} />
         </DialogContent>
       </Dialog>

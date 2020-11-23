@@ -15,7 +15,6 @@ export interface FileProps {
 
 export default function PersonalFile(props: FileProps) {
   const [arr, setArr] = useState<ChildData[]>(PersonalData());
-  // const [isValid,setIsValid]=useState
   const next = () => {
     let isValid = true;
     let arrHelper = [...arr];

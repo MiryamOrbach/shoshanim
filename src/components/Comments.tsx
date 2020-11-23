@@ -139,7 +139,7 @@ export default function Comments(props: CommentsProps) {
       </Grid>
       {displayComments.map((item, idx) => {
         return (
-          <Grid item xs={6}>
+          <Grid key={idx} item xs={6}>
             <Comment item={item} />
           </Grid>
         );

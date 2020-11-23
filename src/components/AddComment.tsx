@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
 import BaseRequest from '../helpers/BaseRequest';
-import { Grid, Typography, TextField, Button } from '@material-ui/core';
+import { Grid, Typography, TextField, Button, makeStyles } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 
 
 interface AddCommentProps {
   course: any;
-  // childId: string
-  // teacherId: string;
   ok: Function;
 }
+const useStyles = makeStyles((theme) => ({
+  grid: {
+    marginTop: 3
+  },
+  icon: {
+    marginTop: 2,
+  },
+}));
+
 
 export default function AddComment(props: AddCommentProps) {
-
+  const classes = useStyles();
   const [comment, setComment] = useState("");
   const addComment = () => {
     console.log(props.course);
@@ -33,12 +40,12 @@ export default function AddComment(props: AddCommentProps) {
             הוספת הערה
         </Typography>
         </Grid>
-        <Grid style={{ marginTop: 3 }} item>
-          <CommentIcon color="primary" style={{ marginTop: 2 }} />
+        <Grid className={classes.grid} item>
+          <CommentIcon color="primary" className={classes.icon} />
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }} onChange={(e) => { setComment(e.target.value) }} variant="outlined" value={comment} multiline label="הערה"></TextField>
+        <TextField className='maxWidth' onChange={(e) => { setComment(e.target.value) }} variant="outlined" value={comment} multiline label="הערה"></TextField>
       </Grid>
       <Grid spacing={1} item container alignItems="flex-start" justify="flex-start" direction="row" xs={12}>
         <Grid item>

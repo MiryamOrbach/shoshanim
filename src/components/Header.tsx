@@ -21,18 +21,12 @@ const useStyles = makeStyles({
     width: "100%",
     boxShadow: "none"
   },
-  tabs: {
-    // width: "50%",
+  img: {
+    height: 50, width: 50, float: "left", cursor: 'pointer'
   },
   tab: {
     width: "10%",
     fontWeight: "bold",
-  },
-  name: {
-    // width: "25%",
-  },
-  logo: {
-    // width: "25%",
   },
 });
 
@@ -59,12 +53,12 @@ export default function Header(props: any) {
   return (
     <>
       {userName ? (
-        <Paper style={{ width: "100%", boxShadow: "none" }}>
+        <Paper className="maxWidth">
           <BrowserRouter>
             <AppBar className={classes.appBar}>
               <Toolbar>
                 <Grid container xs={12} justify="space-between">
-                  <Grid item className={classes.name} xs={3}>
+                  <Grid item xs={3}>
                     {/* <div > */}
                     <IconButton
                       edge="end"
@@ -90,7 +84,7 @@ export default function Header(props: any) {
                           }
                         }}
                         centered
-                        className={classes.tabs}
+
                       >
                         <Tab className={classes.tab} label="כספים" />
                         <Tab
@@ -112,9 +106,9 @@ export default function Header(props: any) {
                     </Grid>
                   }
                   <Grid item xs={3}>
-                    <div className={classes.logo}>
+                    <div>
                       <img
-                        style={{ height: 50, width: 50, float: "right", cursor: 'pointer' }}
+                        className={classes.img}
                         src={Logo}
                         onClick={logoClicked}
                       />‏

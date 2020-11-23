@@ -23,10 +23,18 @@ import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
+    width: "100%"
+  }, icon: {
+    marginTop: 2
   },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
+  grid: {
+    direction: "rtl"
+  }, mainGrid: {
+    marginTop: 3
   },
+  button: {
+    marginRight: "8px"
+  }
 }));
 
 interface CourseProps {
@@ -171,13 +179,12 @@ export default function AddCourse(props: CourseProps) {
             הוספת שיעור
         </Typography>
         </Grid>
-        <Grid style={{ marginTop: 3 }} item>
-          <AddIcon color="primary" style={{ marginTop: 2 }} />
+        <Grid className={classes.mainGrid} item>
+          <AddIcon color="primary" className={classes.icon} />
         </Grid>
       </Grid>
       <Grid item xs={12}>
         <FormControl
-          style={{ width: "100%" }}
           color="primary"
           variant="outlined"
           className={classes.formControl}
@@ -193,7 +200,6 @@ export default function AddCourse(props: CourseProps) {
 
       <Grid item xs={12}>
         <FormControl
-          style={{ width: "100%" }}
           color="primary"
           variant="outlined"
           className={classes.formControl}
@@ -212,7 +218,7 @@ export default function AddCourse(props: CourseProps) {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             PopoverProps={{ dir: 'rtl' }}
-            style={{ width: '100%' }}
+            className="maxWidth"
             color="primary"
             inputVariant="outlined"
             margin="normal"
@@ -236,7 +242,7 @@ export default function AddCourse(props: CourseProps) {
             PopoverProps={{ dir: 'rtl' }}
             color="primary"
             inputVariant="outlined"
-            style={{ width: '100%' }}
+            className="maxWidth"
             variant="inline"
             margin="normal"
             id="time-picker"
@@ -252,7 +258,7 @@ export default function AddCourse(props: CourseProps) {
         </MuiPickersUtilsProvider>
       </Grid>
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }} id="outlined-basic" label="תשלום למטפל"
+        <TextField className="maxWidth" id="outlined-basic" label="תשלום למטפל"
           type="number" variant="outlined"
           value={tarifInterv} onChange={(e) => setTarifInterv(e.target.value)}
           error={!tarifInterv && errors.tarif_interv}
@@ -260,13 +266,13 @@ export default function AddCourse(props: CourseProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <TextField style={{ width: '100%' }} id="outlined-basic" label="עלות"
+        <TextField className="maxWidth" id="outlined-basic" label="עלות"
           type="number" variant="outlined"
           value={tarifCours} onChange={(e) => setTarifCours(e.target.value)}
           error={!tarifCours && errors.tarif_cours} helperText={!tarifCours && errors.tarif_cours ? " עלות חובה" : ""} />
       </Grid>
       <Grid item xs={12}>
-        <FormControl style={{ width: '100%' }} variant="outlined" className={classes.formControl}>
+        <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel style={{ color: errors.id_salle && !selectedClass ? '#f44336' : "" }} id="demo-simple-select-outlined-label">כיתה</InputLabel>
           <Select
 
@@ -278,7 +284,7 @@ export default function AddCourse(props: CourseProps) {
           >
             {salle.map((s, idx) => {
               return <MenuItem
-                value={idx}>{s.kita}</MenuItem>
+                key={idx} value={idx}>{s.kita}</MenuItem>
             })}
           </Select>
           {errors.id_salle && !selectedClass && <FormHelperText error={true}>כיתה שדה חובה</FormHelperText>}
@@ -298,7 +304,7 @@ export default function AddCourse(props: CourseProps) {
           />
         </Grid>
       </Grid>
-      <Grid item container style={{ direction: "ltr" }} direction="row" xs={12}>
+      <Grid item container className={classes.grid} direction="row" xs={12}>
         <Grid item>
           <Button
             variant="contained"
@@ -313,7 +319,7 @@ export default function AddCourse(props: CourseProps) {
             variant="outlined"
             color="primary"
             onClick={() => { props.ok() }}
-            style={{ marginLeft: "8px" }}
+            className={classes.button}
           >
             ביטול
           </Button>

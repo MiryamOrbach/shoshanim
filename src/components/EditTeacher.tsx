@@ -1,11 +1,35 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, CardContent, Card, Typography, TextField, FormControlLabel, Checkbox, FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
+import { Grid, CardContent, Card, Typography, TextField, FormControlLabel, Checkbox, FormControl, InputLabel, Select, MenuItem, Button, makeStyles } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import BaseRequest from '../helpers/BaseRequest';
 import Divider from '@material-ui/core/Divider';
 
+const useStyles = makeStyles((theme) => ({
+  txt: {
+    width: "100%", direction: "ltr"
+  },
+  container: {
+    backgroundColor: '#fafafa'
+  },
+  card: {
+    margin: "2% 15%"
+  },
+  typograpy: {
+    marginBottom: 15, marginTop: 15
+  },
+  typograpyGrid: {
+    marginTop: 7, marginRight: 20
+  },
+  width: {
+    width: '70%'
+  },
+  card2: {
+    marginTop: '2%', flexDirection: 'row', paddingTop: 10, paddingBottom: 10
+  }
 
+}));
 export default function EditTeacher(props: any) {
+  const classes = useStyles();
   const history = useHistory();
   const arr = ["מכבי", "כללית", "לאומית", "מאוחדת"];
   const payOptions = ["180", "300"];
@@ -62,14 +86,24 @@ export default function EditTeacher(props: any) {
 
 
   return (
-    <Grid style={{ backgroundColor: '#fafafa' }} justify="center" alignItems="center" container xs={12}>
+    <Grid
+      className={classes.container}
+      justify="center" alignItems="center" container xs={12}>
       <Grid item xs={12}>
-        <Card style={{ margin: "2% 15%" }}>
+        <Card
+          className={classes.card}
+        >
           <CardContent>
-            <Typography style={{ marginBottom: 15, marginTop: 15 }} variant="h5" color="primary">{`${params.nom} ${params.prenom}`}</Typography>
+            <Typography
+              className={classes.typograpy}
+              variant="h5" color="primary">{`${params.nom} ${params.prenom}`}</Typography>
             <Grid justify="center" direction="column" spacing={3} alignItems="center" container item xs={12}>
-              <Grid style={{ width: '70%' }} item xs={12}>
-                <Grid style={{ width: '100%' }} container justify="center" alignItems="center">
+              <Grid
+                className={classes.width}
+                item xs={12}>
+                <Grid
+                  className='maxWidth'
+                  container justify="center" alignItems="center">
                   <Grid direction="column" spacing={2} item container xs={12} >
                     <Grid item xs={12}>
                       <Divider variant="middle" />
@@ -83,7 +117,7 @@ export default function EditTeacher(props: any) {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         value={updatedTeacher.prenom}
                         label="שם פרטי"
@@ -93,7 +127,7 @@ export default function EditTeacher(props: any) {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         label="שם משפחה"
                         value={updatedTeacher.nom}
@@ -103,7 +137,7 @@ export default function EditTeacher(props: any) {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         label="תעודת זהות"
                         value={updatedTeacher.tz}
@@ -113,19 +147,19 @@ export default function EditTeacher(props: any) {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         label="תחום" value={updatedTeacher.activite} onChange={(e) => { const t = { ...updatedTeacher }; t.activite = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         label="כתובת" value={updatedTeacher.adresse} onChange={(e) => { const t = { ...updatedTeacher }; t.adresse = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         label="טלפון"
                         value={updatedTeacher.tel}
@@ -135,13 +169,13 @@ export default function EditTeacher(props: any) {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         label="2 טלפון" value={updatedTeacher.tel2} onChange={(e) => { const t = { ...updatedTeacher }; t.tel2 = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         label="אימייל"
                         value={updatedTeacher.email}
@@ -151,20 +185,20 @@ export default function EditTeacher(props: any) {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         label="פרטי בנק" value={updatedTeacher.iban} onChange={(e) => { const t = { ...updatedTeacher }; t.iban = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        style={{ width: '100%', direction: "rtl" }}
+                        className={classes.txt}
                         id="outlined-basic"
                         label="מידע נוסף" value={updatedTeacher.infos} onChange={(e) => { const t = { ...updatedTeacher }; t.infos = e.target.value; setUpdatedTeacher(t); }} variant="outlined" />
                     </Grid>
                     <Grid justify="center" container item xs={12} direction="row">
                       {
                         arr.map((a, idx) => {
-                          return (<FormControlLabel
+                          return (<FormControlLabel key={idx}
                             control={
                               <Checkbox
                                 checked={selectedValue == idx + 1}
@@ -186,8 +220,12 @@ export default function EditTeacher(props: any) {
                 </Grid>
 
               </Grid>
-              <Grid style={{ width: '70%' }} item xs={12}>
-                <Card style={{ marginTop: '2%', flexDirection: 'row', paddingTop: 10, paddingBottom: 10 }} variant="outlined">
+              <Grid
+                className={classes.width}
+                item xs={12}>
+                <Card
+                  className={classes.card2}
+                  variant="outlined">
                   <CardContent>
                     <Grid item container justify="center" xs={12}>
                       <Grid direction="column" spacing={2} item container xs={12} >
@@ -198,7 +236,9 @@ export default function EditTeacher(props: any) {
                         </Grid>
                         <Grid item xs={12}>
                           <Grid justify="center" container item xs={12} direction="row-reverse">
-                            <Typography style={{ marginTop: 7, marginLeft: 20 }} color="primary">שכר לשעה</Typography>
+                            <Typography
+                              className={classes.typograpyGrid}
+                              color="primary">שכר לשעה</Typography>
                             {payOptions.map((p, idx) => {
                               return <FormControlLabel
                                 control={
@@ -219,8 +259,12 @@ export default function EditTeacher(props: any) {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid style={{ width: '70%' }} item xs={12}>
-                <Card style={{ marginTop: '2%', flexDirection: 'row', paddingTop: 10, paddingBottom: 10 }} variant="outlined">
+              <Grid
+                className={classes.width}
+                item xs={12}>
+                <Card
+                  className={classes.card2}
+                  variant="outlined">
                   <CardContent>
                     <Grid item container justify="center" xs={12}>
                       <Grid direction="column" spacing={2} item container xs={12} >
@@ -232,7 +276,9 @@ export default function EditTeacher(props: any) {
                         <Grid item xs={12}>
                           <Grid justify="center" spacing={3} container item xs={12} direction="row">
                             <Grid item xs={3}>
-                              <FormControl style={{ width: '100%' }} color="primary" variant="outlined">
+                              <FormControl
+                                className='maxWidth'
+                                color="primary" variant="outlined">
                                 <InputLabel id="demo-simple-select-outlined-label">חודש</InputLabel>
                                 <Select
                                   labelId="demo-simple-select-outlined-label"
@@ -246,7 +292,9 @@ export default function EditTeacher(props: any) {
                               </FormControl>
                             </Grid>
                             <Grid item xs={3}>
-                              <FormControl style={{ width: '100%' }} color="primary" variant="outlined">
+                              <FormControl
+                                className='maxWidth'
+                                color="primary" variant="outlined">
                                 <InputLabel>שנה</InputLabel>
                                 <Select
                                   labelId="demo-simple-select-outlined-label"

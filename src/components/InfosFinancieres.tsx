@@ -2,15 +2,25 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
+  makeStyles,
   Typography,
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import BaseRequest from "../helpers/BaseRequest";
 import EnhancedTable from "./Table";
+
+const useStyles = makeStyles((theme) => ({
+  gridContainer: {
+    width: "30%", marginLeft: "auto"
+  },
+
+}));
+
+
 export default function InfosFinacieres() {
   const arr = ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%"];
   const [indexChecked, setIndexChecked] = React.useState(0);
-
+  const classes = useStyles();
   useEffect(() => {
     BaseRequest("getRportCours")
       .then((res: { data: any[] }) => {
@@ -41,7 +51,7 @@ export default function InfosFinacieres() {
         direction="column"
         justify="flex-start"
         container
-        style={{ width: "30%", marginLeft: "auto" }}
+        className={classes.gridContainer}
       >
         <Grid item xs={12}>
           <Typography variant="h5">הנחה</Typography>

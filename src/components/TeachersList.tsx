@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     float: "left",
     margin: "2%",
   },
+  content: {
+    width: 500, height: 600
+  },
   button: { width: "100%" },
   card: {
     margin: "1% 15%",
@@ -134,7 +137,7 @@ export default function TeacherList() {
         }}
         open={showAddTeacher}
       >
-        <DialogContent style={{ width: 500, height: 600 }}>
+        <DialogContent className={classes.content}>
           <AddTeacher
             ok={() => {
               setShowAddTeacher(false);
