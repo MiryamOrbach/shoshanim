@@ -39,7 +39,7 @@ export default function AttachFiles(props: AttachFilesProps) {
     const getDocuments = () => {
         const formData: FormData = new FormData();
         let data = {
-            "id_elev": '3'
+            "id_elev": props.id
         };
         formData.append("data", JSON.stringify(data));
         BaseRequest("getDocument", formData).then(
@@ -74,7 +74,7 @@ export default function AttachFiles(props: AttachFilesProps) {
                                             var file = [...selectedFiles];
                                             const json = {
                                                 "file": file,
-                                                "id_elev": '3',
+                                                "id_elev": props.id,
                                             };
                                             var formData = new FormData();
                                             formData.append("data", JSON.stringify(json));
